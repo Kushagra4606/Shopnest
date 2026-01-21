@@ -25,7 +25,7 @@ const CheckoutForm = ({ onClose }) => {
 
         // 1. Create PaymentIntent on the server
         try {
-            const response = await fetch('http://localhost:4242/create-payment-intent', {
+            const response = await fetch('/create-payment-intent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ amount: cartTotal * 100 }), // INR in paise

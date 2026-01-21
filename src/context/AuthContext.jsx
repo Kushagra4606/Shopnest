@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
         // Check for token on mount
         const token = localStorage.getItem('token');
         if (token) {
-            fetch('http://localhost:4242/api/me', {
+            fetch('/api/me', {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
                 .then(res => {
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = async (email, password) => {
-        const res = await fetch('http://localhost:4242/api/login', {
+        const res = await fetch('/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const register = async (name, email, password) => {
-        const res = await fetch('http://localhost:4242/api/register', {
+        const res = await fetch('/api/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, email, password })

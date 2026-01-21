@@ -13,7 +13,7 @@ export const CartProvider = ({ children }) => {
     // Sync with DB when user changes
     useEffect(() => {
         if (currentUser) {
-            fetch('http://localhost:4242/api/cart', {
+            fetch('/api/cart', {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             })
                 .then(res => res.json())
@@ -38,7 +38,7 @@ export const CartProvider = ({ children }) => {
         setIsCartOpen(true);
 
         if (currentUser) {
-            fetch('http://localhost:4242/api/cart', {
+            fetch('/api/cart', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export const CartProvider = ({ children }) => {
         setCartItems(prev => prev.filter(item => item.id !== id));
 
         if (currentUser) {
-            fetch(`http://localhost:4242/api/cart/${id}`, {
+            fetch(`/api/cart/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             }).catch(console.error);
@@ -66,7 +66,7 @@ export const CartProvider = ({ children }) => {
                 const newQty = Math.max(1, item.quantity + delta);
 
                 if (currentUser) {
-                    fetch(`http://localhost:4242/api/cart/${id}`, {
+                    fetch(`/api/cart/${id}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ const ProductGrid = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:4242/api/products')
+        fetch('/api/products')
             .then(res => {
                 if (!res.ok) throw new Error('Failed to fetch products');
                 return res.json();

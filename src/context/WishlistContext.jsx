@@ -12,7 +12,7 @@ export const WishlistProvider = ({ children }) => {
 
     useEffect(() => {
         if (currentUser) {
-            fetch('http://localhost:4242/api/wishlist', {
+            fetch('/api/wishlist', {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             })
                 .then(res => res.json())
@@ -32,7 +32,7 @@ export const WishlistProvider = ({ children }) => {
 
         setWishlistItems(prev => [...prev, product]);
 
-        fetch('http://localhost:4242/api/wishlist', {
+        fetch('/api/wishlist', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export const WishlistProvider = ({ children }) => {
 
         setWishlistItems(prev => prev.filter(item => item.id !== productId));
 
-        fetch(`http://localhost:4242/api/wishlist/${productId}`, {
+        fetch(`/api/wishlist/${productId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
