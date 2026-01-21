@@ -64,6 +64,7 @@ app.post('/api/register', async (req, res) => {
             user: { id: result.lastID, name, email, role }
         });
     } catch (e) {
+        console.error("Registration Error:", e);
         if (e.message && e.message.includes('UNIQUE')) {
             return res.status(400).json({ error: 'Email already exists' });
         }
