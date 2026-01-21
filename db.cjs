@@ -7,6 +7,12 @@ const isCloud = process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN;
 let db;
 let client;
 
+// Abort early in production if Turso env vars are missing – Vercel cannot write to SQLite.
+if (process.env.NODE_ENV === 'production' && !isCloud) {
+    console.error('❌ Turso credentials missing in production – aborting server start.');
+    process.exit(1);
+}
+
 if (isCloud) {
     console.log("Using Cloud Database (Turso)");
     client = createClient({

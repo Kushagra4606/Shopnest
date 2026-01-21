@@ -261,4 +261,9 @@ app.delete('/api/cart/:productId', verifyToken, async (req, res) => {
     }
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+if (process.env.VERCEL) {
+    // When deployed on Vercel, export the app as a serverless function
+    module.exports = app;
+} else {
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
