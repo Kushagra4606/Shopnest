@@ -1,0 +1,80 @@
+.payment-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(4px);
+}
+
+.payment-modal {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    width: 100%;
+    max-width: 450px;
+    box-shadow: var(--shadow-lg);
+}
+
+.payment-form h3 {
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+}
+
+.payment-amount {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-accent);
+}
+
+.card-element-container {
+    border: 1px solid #e2e8f0;
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1.5rem;
+    background: #f8fafc;
+}
+
+.pay-btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.btn-cancel {
+    width: 100%;
+    background: transparent;
+    padding: 0.5rem;
+    color: var(--color-text-light);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-cancel:hover {
+    color: var(--color-text);
+}
+
+.payment-error {
+    color: #ef4444;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.payment-success {
+    text-align: center;
+}
+
+.payment-success h3 {
+    color: #10b981;
+    margin-bottom: 0.5rem;
+}
+
+.payment-success p {
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+}
