@@ -45,6 +45,40 @@ const ProductForm = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        const token = localStorage.getItem('token');
+        setLoading(true);
+
+        try {
+            const res = await fetch('/api/upload', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                setFormData(prev => ({ ...prev, image: data.url }));
+            } else {
+                const data = await res.json();
+                alert(data.error || 'Upload failed');
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            alert('Upload failed');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -128,7 +162,19 @@ const ProductForm = () => {
                     </div>
 
                     <div className="form-group">
-                        <label>Image URL</label>
+                        <label>Product Image</label>
+                        <div style={{ marginBottom: '1rem' }}>
+                            <input
+                                type="file"
+                                onChange={handleFileChange}
+                                accept="image/*"
+                                style={{ border: 'none', padding: 0 }}
+                                disabled={loading}
+                            />
+                            {loading && <span style={{ fontSize: '0.9rem', color: '#666' }}>Uploading...</span>}
+                        </div>
+
+                        <label style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>Or Image URL</label>
                         <input
                             type="url"
                             name="image"

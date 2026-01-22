@@ -3,6 +3,19 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const cloudinary = require('cloudinary').v2;
+const multer = require('multer');
+
+// Configure Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// Configure Multer (Memory Storage)
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 // Use the new DB Adapter
 const db = require('./db.cjs');
@@ -131,6 +144,37 @@ app.get('/api/products', async (req, res) => {
 });
 
 // --- ADMIN PRODUCTS APIs ---
+
+// Upload Image
+app.post('/api/upload', verifyAdmin, upload.single('image'), async (req, res) => {
+    if (!req.file) return res.status(400).json({ error: 'No image file provided' });
+
+    try {
+        // Upload to Cloudinary using stream
+        const streamUpload = (buffer) => {
+            return new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    { folder: 'shopnest_products' },
+                    (error, result) => {
+                        if (result) {
+                            resolve(result);
+                        } else {
+                            reject(error);
+                        }
+                    }
+                );
+                stream.write(buffer);
+                stream.end();
+            });
+        };
+
+        const result = await streamUpload(req.file.buffer);
+        res.json({ url: result.secure_url });
+    } catch (e) {
+        console.error('Cloudinary Upload Error:', e);
+        res.status(500).json({ error: 'Image upload failed' });
+    }
+});
 
 // Create Product
 app.post('/api/products', verifyAdmin, async (req, res) => {
