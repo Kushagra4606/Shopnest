@@ -14,6 +14,9 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import ProductForm from './pages/admin/ProductForm'
+import AdminRoute from './components/auth/AdminRoute'
 
 // Inner App component to consume Context
 const ShopNestApp = () => {
@@ -32,6 +35,23 @@ const ShopNestApp = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
+          {/* Admin Routes */}
+          <Route path="/admin" element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          } />
+          <Route path="/admin/add" element={
+            <AdminRoute>
+              <ProductForm />
+            </AdminRoute>
+          } />
+          <Route path="/admin/edit/:id" element={
+            <AdminRoute>
+              <ProductForm />
+            </AdminRoute>
+          } />
         </Routes>
       </main>
       <Footer />

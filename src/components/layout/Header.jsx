@@ -6,7 +6,7 @@ import { useWishlist } from '../../context/WishlistContext';
 import './Header.css';
 
 const Header = ({ onOpenCart, cartCount = 0 }) => {
-    const { currentUser, logout } = useAuth();
+    const { currentUser, logout, isAdmin } = useAuth();
     const { wishlistItems, setIsWishlistOpen } = useWishlist();
     const [showUserMenu, setShowUserMenu] = useState(false);
     const location = useLocation();
@@ -24,6 +24,9 @@ const Header = ({ onOpenCart, cartCount = 0 }) => {
                     <Link to="/shop" className={`nav-link ${location.pathname === '/shop' ? 'active' : ''}`}>Shop</Link>
                     <Link to="/about" className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}>Stories</Link>
                     <Link to="/contact" className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>Contact</Link>
+                    {isAdmin && (
+                        <Link to="/admin" className={`nav-link ${location.pathname.startsWith('/admin') ? 'active' : ''}`}>Admin</Link>
+                    )}
                 </nav>
 
                 <div className="header-actions">
