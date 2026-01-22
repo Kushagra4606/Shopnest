@@ -12,8 +12,17 @@ const PORT = process.env.PORT || 4242;
 const SECRET_KEY = process.env.SECRET_KEY || 'dev_secret';
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
+
+// Health Check Endpoint
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', time: new Date().toISOString() });
+});
 
 // Initialize Database Tables
 db.init();
