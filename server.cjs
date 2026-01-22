@@ -27,6 +27,24 @@ app.get('/api/health', (req, res) => {
 // Initialize Database Tables
 db.init();
 
+// Seed Admin User
+const seedAdmin = async () => {
+    try {
+        const adminEmail = 'admin@shopnest.com';
+        const user = await db.get("SELECT * FROM users WHERE email = ?", [adminEmail]);
+        if (!user) {
+            const hashedPassword = await bcrypt.hash('123@admin', 10);
+            await db.run(`INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)`,
+                ['Admin', adminEmail, hashedPassword, 'admin']
+            );
+            console.log('Admin account seeded');
+        }
+    } catch (e) {
+        console.error('Failed to seed admin:', e);
+    }
+};
+seedAdmin();
+
 // --- Middleware ---
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -59,8 +77,8 @@ app.post('/api/register', async (req, res) => {
     const { name, email, password } = req.body;
     if (!name || !email || !password) return res.status(400).json({ error: 'All fields required' });
 
-    // Special Check: First admin
-    const role = email.includes('admin') ? 'admin' : 'user';
+    // Always user by default
+    const role = 'user';
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
