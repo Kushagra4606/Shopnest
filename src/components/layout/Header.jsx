@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Menu, User, LogOut, Heart } from 'lucide-react';
+import { ShoppingBag, Menu, User, LogOut, Heart, X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useWishlist } from '../../context/WishlistContext';
 import './Header.css';
@@ -9,23 +9,32 @@ const Header = ({ onOpenCart, cartCount = 0 }) => {
     const { currentUser, logout, isAdmin } = useAuth();
     const { wishlistItems, setIsWishlistOpen } = useWishlist();
     const [showUserMenu, setShowUserMenu] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const location = useLocation();
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    const closeMobileMenu = () => {
+        setIsMobileMenuOpen(false);
+    };
 
     return (
         <header className="header">
             <div className="container header-container">
-                <Link to="/" className="logo">
+                <Link to="/" className="logo" onClick={closeMobileMenu}>
                     <ShoppingBag className="logo-icon" size={28} />
                     <span className="logo-text">ShopNest</span>
                 </Link>
 
-                <nav className="nav-links">
-                    <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link>
-                    <Link to="/shop" className={`nav-link ${location.pathname === '/shop' ? 'active' : ''}`}>Shop</Link>
-                    <Link to="/about" className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}>Stories</Link>
-                    <Link to="/contact" className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>Contact</Link>
+                <nav className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+                    <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`} onClick={closeMobileMenu}>Home</Link>
+                    <Link to="/shop" className={`nav-link ${location.pathname === '/shop' ? 'active' : ''}`} onClick={closeMobileMenu}>Shop</Link>
+                    <Link to="/about" className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`} onClick={closeMobileMenu}>Stories</Link>
+                    <Link to="/contact" className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`} onClick={closeMobileMenu}>Contact</Link>
                     {isAdmin && (
-                        <Link to="/admin" className={`nav-link ${location.pathname.startsWith('/admin') ? 'active' : ''}`}>Admin</Link>
+                        <Link to="/admin" className={`nav-link ${location.pathname.startsWith('/admin') ? 'active' : ''}`} onClick={closeMobileMenu}>Admin</Link>
                     )}
                 </nav>
 
@@ -47,14 +56,14 @@ const Header = ({ onOpenCart, cartCount = 0 }) => {
 
                             {showUserMenu && (
                                 <div className="user-dropdown">
-                                    <div className="dropdown-item" onClick={logout}>
+                                    <div className="dropdown-item" onClick={() => { logout(); closeMobileMenu(); }}>
                                         <LogOut size={16} /> Logout
                                     </div>
                                 </div>
                             )}
                         </div>
                     ) : (
-                        <Link to="/login" className="btn-signin">
+                        <Link to="/login" className="btn-signin" onClick={closeMobileMenu}>
                             Sign In
                         </Link>
                     )}
@@ -63,8 +72,8 @@ const Header = ({ onOpenCart, cartCount = 0 }) => {
                         <span className="cart-label">Cart</span>
                         <span className="cart-badge">{cartCount}</span>
                     </button>
-                    <button className="mobile-menu-btn">
-                        <Menu size={24} />
+                    <button className="mobile-menu-btn" onClick={toggleMobileMenu}>
+                        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </div>
             </div>
