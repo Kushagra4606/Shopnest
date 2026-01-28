@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
+import ProductDetailsModal from './ProductDetailsModal';
 import './ProductGrid.css';
 
 const ProductGrid = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
     useEffect(() => {
         fetch('/api/products')
@@ -29,24 +31,45 @@ const ProductGrid = () => {
             });
     }, []);
 
+    const handleProductClick = (product) => {
+        setSelectedProduct(product);
+    };
+
+    const handleCloseModal = () => {
+        setSelectedProduct(null);
+    };
+
     if (loading) return <div className="container">Loading products...</div>;
     if (error) return <div className="container">{error}</div>;
 
     return (
-        <section className="product-section">
-            <div className="container">
-                <div className="section-header">
-                    <h2 className="section-title">Trending Now</h2>
-                    <p className="section-subtitle">Top picks for your daily lifestyle.</p>
-                </div>
+        <>
+            <section className="product-section">
+                <div className="container">
+                    <div className="section-header">
+                        <h2 className="section-title">Trending Now</h2>
+                        <p className="section-subtitle">Top picks for your daily lifestyle.</p>
+                    </div>
 
-                <div className="product-grid">
-                    {products.map(product => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
+                    <div className="product-grid">
+                        {products.map(product => (
+                            <ProductCard
+                                key={product.id}
+                                product={product}
+                                onClick={() => handleProductClick(product)}
+                            />
+                        ))}
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+
+            {selectedProduct && (
+                <ProductDetailsModal
+                    product={selectedProduct}
+                    onClose={handleCloseModal}
+                />
+            )}
+        </>
     );
 };
 

@@ -52,6 +52,24 @@
     gap: var(--spacing-sm);
 }
 
+.wishlist-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--color-primary);
+    border: none;
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.wishlist-btn:hover {
+    background-color: #f3f4f6;
+}
+
 .cart-btn {
     display: flex;
     align-items: center;

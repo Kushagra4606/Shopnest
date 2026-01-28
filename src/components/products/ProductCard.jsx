@@ -4,13 +4,14 @@ import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import './ProductCard.css';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onClick }) => {
     const { addToCart } = useCart();
     const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
     const isWishlisted = isInWishlist(product.id);
 
-    const toggleWishlist = () => {
+    const toggleWishlist = (e) => {
+        e.stopPropagation();
         if (isWishlisted) {
             removeFromWishlist(product.id);
         } else {
@@ -18,8 +19,13 @@ const ProductCard = ({ product }) => {
         }
     };
 
+    const handleAddToCart = (e) => {
+        e.stopPropagation();
+        addToCart(product);
+    }
+
     return (
-        <div className="product-card">
+        <div className="product-card" onClick={onClick}>
             <div className="product-image-wrapper">
                 <span className="product-badge hot">HOT</span>
                 <button
@@ -47,7 +53,7 @@ const ProductCard = ({ product }) => {
                     <div className="product-price">₹{product.price.toLocaleString()}</div>
                     <button
                         className="btn-add-cart"
-                        onClick={() => addToCart(product)}
+                        onClick={handleAddToCart}
                     >
                         <ShoppingCart size={18} /> Add
                     </button>
