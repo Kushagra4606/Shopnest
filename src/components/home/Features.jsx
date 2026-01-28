@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, Leaf } from 'lucide-react';
+import featureArt from '../../assets/feature-art.png';
 import './Features.css';
 
 const Features = () => {
@@ -38,7 +39,7 @@ const Features = () => {
                 </div>
 
                 <div className="features-image-wrapper">
-                    <img src="/src/assets/feature-art.png" alt="Abstract Art" className="features-image" />
+                    <img src={featureArt} alt="Abstract Art" className="features-image" />
                 </div>
             </div>
         </section>
