@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   /* Colors */
   --color-primary: #1e293b; /* Dark Slate Blue for headings/footer */

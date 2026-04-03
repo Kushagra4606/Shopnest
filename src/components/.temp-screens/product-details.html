@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ShopNest | Product Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#cfbdff",
+              "primary-fixed": "#e8ddff",
+              "outline-variant": "#cbc3d9",
+              "inverse-on-surface": "#f0f1f1",
+              "on-background": "#1a1c1c",
+              "on-error-container": "#93000a",
+              "surface": "#f9f9f9",
+              "surface-bright": "#f9f9f9",
+              "on-surface": "#1a1c1c",
+              "on-tertiary-container": "#ffb6af",
+              "error": "#ba1a1a",
+              "secondary-fixed-dim": "#ffb59e",
+              "inverse-primary": "#cfbdff",
+              "secondary-fixed": "#ffdbd0",
+              "on-primary": "#ffffff",
+              "on-primary-fixed": "#22005d",
+              "tertiary-container": "#aa0917",
+              "on-primary-container": "#d0beff",
+              "on-tertiary-fixed": "#410003",
+              "surface-tint": "#6d23f9",
+              "on-secondary-fixed": "#390c01",
+              "surface-variant": "#e2e2e2",
+              "surface-container-highest": "#e2e2e2",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#eeeeee",
+              "tertiary": "#80000c",
+              "background": "#f9f9f9",
+              "secondary": "#8d4d38",
+              "surface-container-low": "#f3f3f4",
+              "surface-dim": "#dadada",
+              "primary": "#4800b2",
+              "inverse-surface": "#2f3131",
+              "error-container": "#ffdad6",
+              "on-primary-fixed-variant": "#5300cd",
+              "outline": "#7a7488",
+              "secondary-container": "#fdaa90",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-high": "#e8e8e8",
+              "tertiary-fixed": "#ffdad6",
+              "on-tertiary-fixed-variant": "#930010",
+              "on-secondary-container": "#783c28",
+              "tertiary-fixed-dim": "#ffb3ac",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#494456",
+              "on-error": "#ffffff",
+              "on-secondary-fixed-variant": "#713623",
+              "primary-container": "#6200ee"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #4800b2 0%, #6200ee 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Top Navigation Bar -->
+<header class="fixed w-full top-0 z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-black text-violet-700 dark:text-violet-400 tracking-tighter">ShopNest</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-violet-700 dark:text-violet-400 font-bold border-b-2 border-violet-700 hover:text-violet-600 dark:hover:text-violet-300 transition-colors" href="#">Shop</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-violet-600 dark:hover:text-violet-300 transition-colors" href="#">Groups</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-violet-600 dark:hover:text-violet-300 transition-colors" href="#">Split Bill</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<input class="bg-surface-container-high border-none rounded-full py-2 px-6 w-64 focus:ring-2 focus:ring-primary text-sm" placeholder="Search curated items..." type="text"/>
+</div>
+<button class="scale-95 active:duration-100 transition-transform text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button class="scale-95 active:duration-100 transition-transform text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-12 max-w-screen-2xl mx-auto px-6">
+<!-- Breadcrumb -->
+<nav class="flex items-center gap-2 mb-8 text-sm text-on-surface-variant">
+<a class="hover:text-primary" href="#">Home</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<a class="hover:text-primary" href="#">Curated Living</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-on-surface font-medium">Aura Sound System</span>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Left: Product Media (Asymmetric Layout) -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<div class="aspect-[4/3] w-full rounded-lg overflow-hidden bg-surface-container-low shadow-sm">
+<img class="w-full h-full object-cover" data-alt="minimalist white architectural wireless speaker on a marble plinth with soft directional morning light and neutral room background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcba4eN2DckxJkwLkXxq3ND8MD4sW5nIQZug5fLuJ6N3B0K-dkp4gTOY6zMuHHwEWpLxtoc8G_jVJR6T-9TBS9XS_ny0HPXh4Hv_fMQi4F-dYnkP5P1nmNyzjBwRC3XEF1adBNAMGhZJDKrdWnsgfO795Tqr7ezwSlFQc7WnVSPC_naAjzzP91ZE-bcYlN4YW-jN5ESM3I8ma3eBecL87ctQHB6froynpMzOZRlTn35uBQGuKOqqFJ-ANlorXRLcHRnsckVvKP5nY"/>
+</div>
+<div class="grid grid-cols-5 gap-4">
+<button class="aspect-square rounded-md overflow-hidden ring-2 ring-primary ring-offset-2">
+<img class="w-full h-full object-cover" data-alt="close-up detail of a white wireless speaker's tactile fabric texture and elegant aluminum interface button" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnh5WVloQBVasfvX39jBHZh081Zci9shkuFYcdSqA6V29HN-aGGUadwzjjlmeOiXjh-X_u-29miqw6AiLlSTnUeWW03IiloTxo9KnUXh2ccXvV3yfteZ_4ZVKRajur6sC7xzlPosXaTHwF4bcImRQ1hkmb6rFVwQl0zCTg48VbPdS4IUg5i-FCotMiUTT5CxDJe7inVBu3DO2C3skR-s4uWbOwtRd7uYBZ9rwPjtbbkrRHF8NWI2o60I7V6D79JG7KQ5QX6EGasv0"/>
+</button>
+<button class="aspect-square rounded-md overflow-hidden bg-surface-container-low hover:opacity-80 transition-opacity">
+<img class="w-full h-full object-cover" data-alt="perspective view of a sleek modern speaker sitting on a minimalist wooden sideboard with a green potted plant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCSEnndlaa20sDlxPdnMoYFLuOmwTVP8uY_egAqi7aTtIfKlLMtZWbVx4F3V3bgzs8W_bOt7nUCSobIU-esnhiZ1zoB0yjQlr6Jq1PzlQuxm5SkJolt_-X6wwrkObTTvoBS4881mJCSUYC7PI4JKcCxn-iv49hANFHHSGECv4Y2y4oIKf4lCZYeiCAeWhcBEuis4O2c7tpU2lp8DnU5p3TwPUSINUhZ23tU1_mulipH7i5NM-BJW2pzYhyK3ZhtoyAIY8znv2rPPo"/>
+</button>
+<button class="aspect-square rounded-md overflow-hidden bg-surface-container-low hover:opacity-80 transition-opacity">
+<img class="w-full h-full object-cover" data-alt="abstract artistic shot showing the speaker's internal components glowing with subtle purple ambient LED light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCm1qo5kWIIMBRRzdY87Lh1DxdvTIF1O1nelIF1-qxS_I1YGzGlzY84R0jqBEHza_laysLt-U9PVNAPRdHL9uqD8CUJHBDlSzIs67tgln_SYenpiA81ESl3aEwa5YKjniEDH4X_yJox4CnjUf9wMggZe-comhiNp4inOqj-FRuJ5j-Mw3HIKdI0ZaCge4A2BZdgblAZnMXUpd6yQhJz7Ol27dABAXrLzd0zrUvC6je4r49g1L1l2RbJu-hcEe0rywioIL5-oXLS44g"/>
+</button>
+<button class="aspect-square rounded-md overflow-hidden bg-surface-container-low hover:opacity-80 transition-opacity">
+<img class="w-full h-full object-cover" data-alt="lifestyle shot of a modern living room featuring the speaker as a central design piece on a glass table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRDuSRn2NPvjtdYGMOkgTb_J4s9AdqhuNOcXEn9DEhMCFniz8DZPkDnqGzzosYU8ajX63oMXX7n-lrfS9WgtxEg23u9cAN5Qq98PnWKgSunims2RkBoYLe7sntXnbveLhdo2TzOFP91ep4cJBgke6VEEzsZEGwlE8fFcZ_NAopzjp5GcLfngWS1p31E6OrhcERpLSdG6j3sFGkCSIPVxMUWdm_vI6lFY1MMq5HYUrmMVwF1vLMvUXBXRcLn_mggA-3zgOzLjEN30E"/>
+</button>
+<button class="aspect-square rounded-md overflow-hidden bg-surface-container-low flex items-center justify-center relative">
+<img class="w-full h-full object-cover opacity-40" data-alt="blurred background of a high-end audio showroom with a play button overlay for product video" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkmZjVsB7gnxYmjsGWsbuoK5QH-AGnmARx-1Ex-1l55rovfxqF4dL0QXbVmpUZlF1Plk1eef1gjX2IRciAfL8ZXrXoRB5mMxK7U0hXZ1MMzJOohhxCplLKExzT3WOlJrAAbCa-rO4Rgp3HQv7ZvN35AlJ_qR6BAhoVkA4naKKKZ3tFHmz5kNSeOCmAl5AnxgWZj32_i9_Hl4n65SIgZlmElBT5ZMEnbayD7S8dnlSH5Orq8aK3Ok6NePnTJChfK51xQbGzfU24MN4"/>
+<span class="material-symbols-outlined absolute text-3xl text-on-surface">play_circle</span>
+</button>
+</div>
+</div>
+<!-- Right: Product Information -->
+<div class="lg:col-span-5 flex flex-col gap-8">
+<section>
+<div class="flex items-center gap-2 mb-4">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">Editor's Choice</span>
+<div class="flex items-center text-amber-400">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm">star_half</span>
+<span class="ml-2 text-xs text-on-surface-variant font-medium">(1,284 reviews)</span>
+</div>
+</div>
+<h1 class="text-4xl lg:text-5xl font-headline font-extrabold text-on-surface tracking-tight mb-2">Aura Sound System</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed mb-6">Experience acoustic perfection with our most advanced 360-degree spatial audio curator.</p>
+<div class="flex flex-col gap-4">
+<div class="flex items-end gap-4">
+<span class="text-5xl font-headline font-black text-primary tracking-tighter">$799.00</span>
+<div class="flex flex-col mb-1">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-md text-xs font-bold inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                                    Price adjusted due to high demand
+                                </span>
+</div>
+</div>
+<!-- Price History Mini Chart -->
+<div class="bg-surface-container-low p-4 rounded-xl">
+<div class="flex justify-between items-center mb-3">
+<span class="text-xs font-semibold uppercase tracking-wider text-on-surface-variant">7-Day Trend</span>
+<span class="text-[10px] text-primary font-bold">+4.2% from last week</span>
+</div>
+<div class="h-12 w-full flex items-end gap-1 px-1">
+<div class="w-full bg-primary-fixed-dim/40 h-1/2 rounded-t-sm"></div>
+<div class="w-full bg-primary-fixed-dim/40 h-2/3 rounded-t-sm"></div>
+<div class="w-full bg-primary-fixed-dim/40 h-1/2 rounded-t-sm"></div>
+<div class="w-full bg-primary-fixed-dim/40 h-3/4 rounded-t-sm"></div>
+<div class="w-full bg-primary-fixed-dim/40 h-4/5 rounded-t-sm"></div>
+<div class="w-full bg-primary-fixed-dim h-full rounded-t-sm"></div>
+<div class="w-full bg-primary h-[110%] rounded-t-sm shadow-[0_0_10px_rgba(72,0,178,0.3)]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Group Buying Section -->
+<section class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_24px_48px_rgba(34,0,93,0.06)] ring-1 ring-outline-variant/10">
+<div class="flex items-center gap-3 mb-6">
+<div class="p-2 bg-primary-fixed rounded-lg text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg text-on-surface">Group Buying Discount</h3>
+<p class="text-xs text-on-surface-variant">Unlock significant savings by buying with others.</p>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center p-3 bg-surface-container-low rounded-lg transition-all hover:bg-surface-container-high cursor-default">
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-on-surface">2 People</span>
+<span class="text-xs text-on-surface-variant">Standard Duo</span>
+</div>
+<span class="text-primary font-black">5% OFF</span>
+</div>
+<div class="flex justify-between items-center p-3 bg-primary/5 ring-1 ring-primary/20 rounded-lg">
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-primary">5 People</span>
+<span class="text-xs text-primary/70">Popular Choice</span>
+</div>
+<span class="text-primary font-black">10% OFF</span>
+</div>
+<div class="flex justify-between items-center p-3 bg-surface-container-low rounded-lg transition-all hover:bg-surface-container-high cursor-default">
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-on-surface">10 People</span>
+<span class="text-xs text-on-surface-variant">Bulk Advantage</span>
+</div>
+<span class="text-primary font-black">15% OFF</span>
+</div>
+</div>
+</section>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-4 mt-2">
+<button class="primary-gradient text-white py-5 rounded-xl font-headline font-bold text-lg flex items-center justify-center gap-2 shadow-xl shadow-primary/20 scale-100 active:scale-95 transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+<button class="border-2 border-primary text-primary py-4 rounded-xl font-headline font-bold flex items-center justify-center gap-2 hover:bg-primary/5 transition-colors scale-100 active:scale-95">
+<span class="material-symbols-outlined">group_add</span>
+                        Join Group Order
+                    </button>
+<div class="flex justify-center mt-2">
+<p class="text-[10px] text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">security</span>
+                            Secure checkout with ShopNest Protection
+                        </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Curated Features Bento -->
+<section class="mt-24">
+<h2 class="text-3xl font-headline font-extrabold text-on-surface mb-10 tracking-tight text-center">Curated Intelligence</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-white p-8 rounded-xl ring-1 ring-outline-variant/10 flex flex-col justify-between group overflow-hidden relative">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-primary text-4xl mb-4" style="font-variation-settings: 'FILL' 1;">spatial_audio</span>
+<h4 class="text-2xl font-headline font-bold text-on-surface mb-2">360° Acoustic Envelope</h4>
+<p class="text-on-surface-variant leading-relaxed max-w-md">Our proprietary waveguide technology creates a sonic experience that adapts to your room's unique geometry.</p>
+</div>
+<div class="absolute -right-12 -bottom-12 w-64 h-64 bg-primary-fixed opacity-10 rounded-full blur-3xl group-hover:scale-125 transition-transform"></div>
+</div>
+<div class="bg-primary text-on-primary p-8 rounded-xl flex flex-col justify-center items-center text-center">
+<span class="material-symbols-outlined text-5xl mb-4">nest_eco_leaf</span>
+<h4 class="text-xl font-headline font-bold mb-2">Sustainably Sourced</h4>
+<p class="text-on-primary/80 text-sm">Recycled aluminum and ethical textiles in every unit.</p>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl flex flex-col">
+<span class="material-symbols-outlined text-primary text-3xl mb-4">settings_input_antenna</span>
+<h4 class="font-headline font-bold text-lg mb-2">Lossless Wireless</h4>
+<p class="text-on-surface-variant text-sm">Ultra-low latency streaming via dedicated NestConnect hardware.</p>
+</div>
+<div class="md:col-span-2 bg-surface-container-lowest ring-1 ring-outline-variant/20 p-8 rounded-xl flex flex-col md:flex-row items-center gap-8 overflow-hidden">
+<div class="flex-1">
+<span class="material-symbols-outlined text-primary text-3xl mb-4">palette</span>
+<h4 class="font-headline font-bold text-xl mb-2">Editor's Bespoke Colors</h4>
+<p class="text-on-surface-variant text-sm">Available in three limited edition finishes curated by our design collective.</p>
+</div>
+<div class="flex gap-2">
+<div class="w-8 h-8 rounded-full bg-white ring-2 ring-primary ring-offset-2"></div>
+<div class="w-8 h-8 rounded-full bg-zinc-900 ring-1 ring-outline-variant"></div>
+<div class="w-8 h-8 rounded-full bg-slate-200 ring-1 ring-outline-variant"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Simple Modern Footer -->
+<footer class="bg-white border-t border-surface-container-high py-12 px-6">
+<div class="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="text-xl font-black text-violet-700 tracking-tighter">ShopNest</div>
+<div class="flex gap-8 text-sm font-medium text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="hover:text-primary transition-colors" href="#">Returns</a>
+<a class="hover:text-primary transition-colors" href="#">Shipping</a>
+<a class="hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<p class="text-xs text-on-surface-variant/60">© 2024 ShopNest Curator Collective. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

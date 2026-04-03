@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ShopNest Admin | Dynamic Pricing Control</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#cfbdff",
+              "primary-fixed": "#e8ddff",
+              "outline-variant": "#cbc3d9",
+              "inverse-on-surface": "#f0f1f1",
+              "on-background": "#1a1c1c",
+              "on-error-container": "#93000a",
+              "surface": "#f9f9f9",
+              "surface-bright": "#f9f9f9",
+              "on-surface": "#1a1c1c",
+              "on-tertiary-container": "#ffb6af",
+              "error": "#ba1a1a",
+              "secondary-fixed-dim": "#ffb59e",
+              "inverse-primary": "#cfbdff",
+              "secondary-fixed": "#ffdbd0",
+              "on-primary": "#ffffff",
+              "on-primary-fixed": "#22005d",
+              "tertiary-container": "#aa0917",
+              "on-primary-container": "#d0beff",
+              "on-tertiary-fixed": "#410003",
+              "surface-tint": "#6d23f9",
+              "on-secondary-fixed": "#390c01",
+              "surface-variant": "#e2e2e2",
+              "surface-container-highest": "#e2e2e2",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#eeeeee",
+              "tertiary": "#80000c",
+              "background": "#f9f9f9",
+              "secondary": "#8d4d38",
+              "surface-container-low": "#f3f3f4",
+              "surface-dim": "#dadada",
+              "primary": "#4800b2",
+              "inverse-surface": "#2f3131",
+              "error-container": "#ffdad6",
+              "on-primary-fixed-variant": "#5300cd",
+              "outline": "#7a7488",
+              "secondary-container": "#fdaa90",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-high": "#e8e8e8",
+              "tertiary-fixed": "#ffdad6",
+              "on-tertiary-fixed-variant": "#930010",
+              "on-secondary-container": "#783c28",
+              "tertiary-fixed-dim": "#ffb3ac",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#494456",
+              "on-error": "#ffffff",
+              "on-secondary-fixed-variant": "#713623",
+              "primary-container": "#6200ee"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sparkline-svg {
+            stroke: #4800b2;
+            stroke-width: 2;
+            fill: transparent;
+            stroke-linecap: round;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-zinc-900 dark:bg-black flex flex-col py-6 shadow-2xl shadow-violet-900/20 z-50">
+<div class="text-xl font-bold text-white mb-8 px-4 font-headline">ShopNest</div>
+<div class="flex items-center px-4 mb-10 space-x-3">
+<div class="w-10 h-10 rounded-full bg-primary-container overflow-hidden">
+<img alt="Admin Profile Image" class="w-full h-full object-cover" data-alt="Close-up professional headshot of a confident tech administrator with warm studio lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgvThhN1i2Op50e13KYScbSe-RCAZEdYGuU4j_sHRjGvP7IZvs5DW892WpV5zkCU06VacHEWx6zxI-dWz5WAWYEbOzXovgkTbBRbULdxYWXUVEp0uHeYpF4dw33LHOgSmn3kjI4L7KLEEs6DCoOuKvcig6in-0_36dCW0EBoWrdrM_HoGT6foCShO9bHcZHb7alnEd1ZYrOT7q39WDLIjXZzwW6P5fOMom7EiFEM0vL-IAFwbtpTMO_SNnw2zhnuJLvmc_TaTvRFw"/>
+</div>
+<div>
+<p class="text-white text-sm font-semibold tracking-wide">Admin Portal</p>
+<p class="text-zinc-500 text-xs">Inventory Control</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-zinc-400 hover:text-white mx-2 my-1 px-4 py-3 flex items-center space-x-3 hover:bg-zinc-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Dashboard</span>
+</a>
+<a class="text-zinc-400 hover:text-white mx-2 my-1 px-4 py-3 flex items-center space-x-3 hover:bg-zinc-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Inventory</span>
+</a>
+<a class="bg-violet-600/20 text-violet-300 rounded-xl mx-2 my-1 px-4 py-3 border-l-4 border-violet-500 flex items-center space-x-3 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Pricing</span>
+</a>
+<a class="text-zinc-400 hover:text-white mx-2 my-1 px-4 py-3 flex items-center space-x-3 hover:bg-zinc-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Orders</span>
+</a>
+<a class="text-zinc-400 hover:text-white mx-2 my-1 px-4 py-3 flex items-center space-x-3 hover:bg-zinc-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4">
+<button class="text-zinc-400 hover:text-white flex items-center space-x-3 py-4 transition-all duration-200">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Logout</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- Header -->
+<header class="sticky top-0 z-40 bg-white/80 backdrop-blur-xl px-8 py-6 flex justify-between items-center border-b border-outline-variant/10">
+<div>
+<h1 class="text-3xl font-headline font-extrabold tracking-tight text-on-surface">Dynamic Pricing Control</h1>
+<p class="text-on-surface-variant text-sm mt-1">Algorithmic inventory valuation &amp; price optimization</p>
+</div>
+<div class="flex items-center space-x-4">
+<div class="relative group">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</span>
+<input class="bg-surface-container-high border-none rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary w-64 transition-all duration-200" placeholder="Search products..." type="text"/>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-8">
+<!-- Bento Stats Grid -->
+<div class="grid grid-cols-4 gap-6 mb-10">
+<div class="col-span-1 bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/5">
+<p class="text-on-surface-variant font-label text-[10px] uppercase tracking-widest mb-1">Active Algorithms</p>
+<p class="text-2xl font-bold font-headline">142</p>
+<div class="mt-4 flex items-center text-xs text-green-600 font-semibold">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_up</span>
+<span>+12.5% vs last week</span>
+</div>
+</div>
+<div class="col-span-1 bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/5">
+<p class="text-on-surface-variant font-label text-[10px] uppercase tracking-widest mb-1">Pricing Drift</p>
+<p class="text-2xl font-bold font-headline">2.4%</p>
+<div class="mt-4 flex items-center text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] mr-1">video_stable</span>
+<span>Within safety bounds</span>
+</div>
+</div>
+<div class="col-span-2 bg-primary-container/10 border border-primary-container/20 rounded-xl p-6 flex justify-between items-center">
+<div>
+<p class="text-primary font-bold font-headline text-lg">Revenue Optimization</p>
+<p class="text-on-surface-variant text-sm mt-1 max-w-xs">Dynamic pricing has contributed an estimated <span class="text-primary font-bold">+$4.2k</span> in additional margin this cycle.</p>
+</div>
+<button class="bg-primary text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:opacity-90 transition-opacity">View Analysis</button>
+</div>
+</div>
+<!-- Product Controls Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Product Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/5 group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center space-x-4">
+<div class="w-14 h-14 bg-surface-container rounded-lg overflow-hidden shrink-0">
+<img alt="Modern Sneaker" class="w-full h-full object-cover" data-alt="Vibrant red running shoe on a clean white professional studio backdrop with minimalist aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk7kw8lys-TOTNO90TcMwpWsdzMxV0tASUHrSVMaIGOS3Oxnpa-czIqY7uQ3gFEkGjPZvvpKRCqBu4wJrBvwoPLSQI3zes-ei8HCjDQhAkuvXRPGJBzxPQ1C2aLbAVt2Gra6mkxoHUN2Y90nkNHOgnwQqt-mrVY-2oajz9FOzwOLU7CL2TWgr7pCvK0m22kuhxl-EZqJLMSS3mbPkZyFEwLyIfHpc8mJHzSyd80sWS97iu-4QXNisK7PIDto4Emog9QINfB48dIY4"/>
+</div>
+<div>
+<h3 class="font-bold font-headline text-on-surface leading-tight">Velocita Pro Runner</h3>
+<p class="text-xs text-on-surface-variant mt-0.5">Category: Performance Footwear</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-xs font-label text-on-surface-variant uppercase tracking-tighter">Current Price</p>
+<p class="text-xl font-black text-primary">$189.99</p>
+</div>
+</div>
+<div class="flex items-end justify-between mb-8">
+<div class="flex-1 max-w-[120px]">
+<p class="text-[10px] text-on-surface-variant font-label uppercase mb-2">7-Day Trend</p>
+<svg class="w-full h-8 overflow-visible" viewbox="0 0 100 30">
+<path class="sparkline-svg" d="M0,25 Q15,5 30,20 T60,10 T100,15"></path>
+</svg>
+</div>
+<div class="flex items-center space-x-2">
+<span class="text-xs font-bold text-primary font-headline">DYNAMIC: ON</span>
+<div class="relative inline-block w-12 h-6 rounded-full bg-primary p-1 cursor-pointer">
+<div class="w-4 h-4 rounded-full bg-white ml-auto"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-outline-variant/10">
+<div>
+<label class="block text-[10px] font-label text-on-surface-variant uppercase mb-1">Floor Price</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-high border-none rounded-lg pl-6 pr-3 py-2 text-sm font-semibold focus:ring-primary" type="text" value="165.00"/>
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-label text-on-surface-variant uppercase mb-1">Ceiling Price</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-high border-none rounded-lg pl-6 pr-3 py-2 text-sm font-semibold focus:ring-primary" type="text" value="225.00"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 2 (FLOOR WARNING) -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border-2 border-error/20 group hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="absolute top-0 right-0">
+<div class="bg-error text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg flex items-center">
+<span class="material-symbols-outlined text-[12px] mr-1" style="font-variation-settings: 'FILL' 1;">warning</span>
+                            PRICE AT FLOOR LIMIT
+                        </div>
+</div>
+<div class="flex justify-between items-start mb-6 pt-4">
+<div class="flex items-center space-x-4">
+<div class="w-14 h-14 bg-surface-container rounded-lg overflow-hidden shrink-0">
+<img alt="Smart Watch" class="w-full h-full object-cover" data-alt="Sleek modern silver smartwatch with black band on a soft grey gradient background with editorial lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLdMm72n6-9AdkIh-WkbDhVGbxhAabZg6bRfOQk5YloboptwGEyvp2W4tTYkE3NaNbfwNUXEQsP7FfMG4VTZszyF1gm1sq2bIzx4Or8W8JbMG--LOBZ4OrG4tLC4O1o7UKaszYrMa6DgN1fIORXBdIltU4btXxB_irKceOaq-_55EBrqkcEEjQbUSCYod2L3WRnOFpcwNatnhCuYSjY1Tk2LQ9DMPusrmE3r8ZlfvX6wyeUKc8BjdbzwiJLI6QJa3dIY4USAwmDlY"/>
+</div>
+<div>
+<h3 class="font-bold font-headline text-on-surface leading-tight">Nexus G2 Smartwatch</h3>
+<p class="text-xs text-on-surface-variant mt-0.5">Category: Wearables</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-xs font-label text-on-surface-variant uppercase tracking-tighter">Current Price</p>
+<p class="text-xl font-black text-error">$149.00</p>
+</div>
+</div>
+<div class="flex items-end justify-between mb-8">
+<div class="flex-1 max-w-[120px]">
+<p class="text-[10px] text-on-surface-variant font-label uppercase mb-2">7-Day Trend</p>
+<svg class="w-full h-8 overflow-visible" viewbox="0 0 100 30">
+<path class="stroke-error fill-none stroke-[2px]" d="M0,5 Q15,10 30,25 T60,28 T100,29"></path>
+</svg>
+</div>
+<div class="flex items-center space-x-2">
+<span class="text-xs font-bold text-primary font-headline">DYNAMIC: ON</span>
+<div class="relative inline-block w-12 h-6 rounded-full bg-primary p-1 cursor-pointer">
+<div class="w-4 h-4 rounded-full bg-white ml-auto"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-outline-variant/10">
+<div>
+<label class="block text-[10px] font-label text-on-surface-variant uppercase mb-1">Floor Price</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-error font-bold">$</span>
+<input class="w-full bg-error-container/30 border-2 border-error/20 rounded-lg pl-6 pr-3 py-2 text-sm font-black text-on-error-container" type="text" value="149.00"/>
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-label text-on-surface-variant uppercase mb-1">Ceiling Price</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-high border-none rounded-lg pl-6 pr-3 py-2 text-sm font-semibold focus:ring-primary" type="text" value="210.00"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/5 group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center space-x-4">
+<div class="w-14 h-14 bg-surface-container rounded-lg overflow-hidden shrink-0">
+<img alt="Headphones" class="w-full h-full object-cover" data-alt="High-end noise cancelling headphones in matte black on a textured dark oak surface with warm rim lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMgqnzwsQ19YHifWKBQTY81UaQcnPInapNxiwerXXTElBkU0Zd0I1PuAdMRacjPjLZl9MVXVC4KoF4LBVigdaf3yN3nj2K6yPEBZ-ATvyCEBniNlVVxk0DPZ_Lovz76sBlwORVcVVhLOibAYu6Osef9_6tTGsGZJuMdEVT-Bviwp7qN1V6xH7QhUWl7_0uEFhTALbMFF78_hZ-dgL970KY4veKCnN468CzPccC2HNAj3FQTCrnuvM9fq68JVSg3Ga53Xa711Kgjyk"/>
+</div>
+<div>
+<h3 class="font-bold font-headline text-on-surface leading-tight">Aura Sound ANC</h3>
+<p class="text-xs text-on-surface-variant mt-0.5">Category: Audio</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-xs font-label text-on-surface-variant uppercase tracking-tighter">Current Price</p>
+<p class="text-xl font-black text-on-surface">$345.50</p>
+</div>
+</div>
+<div class="flex items-end justify-between mb-8">
+<div class="flex-1 max-w-[120px]">
+<p class="text-[10px] text-on-surface-variant font-label uppercase mb-2">7-Day Trend</p>
+<svg class="w-full h-8 overflow-visible" viewbox="0 0 100 30">
+<path class="stroke-slate-400 fill-none stroke-[2px]" d="M0,15 T25,12 T50,18 T75,10 T100,12"></path>
+</svg>
+</div>
+<div class="flex items-center space-x-2">
+<span class="text-xs font-bold text-on-surface-variant font-headline">DYNAMIC: OFF</span>
+<div class="relative inline-block w-12 h-6 rounded-full bg-surface-container-high p-1 cursor-pointer">
+<div class="w-4 h-4 rounded-full bg-outline"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-outline-variant/10">
+<div>
+<label class="block text-[10px] font-label text-on-surface-variant uppercase mb-1">Floor Price</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-high border-none rounded-lg pl-6 pr-3 py-2 text-sm font-semibold focus:ring-primary" type="text" value="299.00"/>
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-label text-on-surface-variant uppercase mb-1">Ceiling Price</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-high border-none rounded-lg pl-6 pr-3 py-2 text-sm font-semibold focus:ring-primary" type="text" value="399.00"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/5 group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center space-x-4">
+<div class="w-14 h-14 bg-surface-container rounded-lg overflow-hidden shrink-0">
+<img alt="Camera" class="w-full h-full object-cover" data-alt="Mirrorless digital camera with professional lens on a minimalist studio setup with soft directional light and long shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD79DqUZTCaVS6ZMA-ExYhHk-Mzj5Ca4v0xYEnmc_Q0bpSfPUHBcYmOb9-vKqMOhtdZaATntcYSzcJGRcw45o0NIIt6ZmXXrjKTzojLSF7bmJig69qTLVp6z3cOhrcwI2V7SCNEzTKI5BCkOgvGpYE2BXXyDaU1g30hoIM23R4oiBDRYryAig-ZnSJNmBVsv0rjpCwYU-y9N7nDANWFmRI2wsB8oY9nkDVW8Nkn0Wi0Sk4kMTz_Ub4iWS3agiBrEh3USbwLpPBko00"/>
+</div>
+<div>
+<h3 class="font-bold font-headline text-on-surface leading-tight">Lumix S5 Case</h3>
+<p class="text-xs text-on-surface-variant mt-0.5">Category: Photography Accessories</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-xs font-label text-on-surface-variant uppercase tracking-tighter">Current Price</p>
+<p class="text-xl font-black text-primary">$49.99</p>
+</div>
+</div>
+<div class="flex items-end justify-between mb-8">
+<div class="flex-1 max-w-[120px]">
+<p class="text-[10px] text-on-surface-variant font-label uppercase mb-2">7-Day Trend</p>
+<svg class="w-full h-8 overflow-visible" viewbox="0 0 100 30">
+<path class="sparkline-svg" d="M0,10 Q20,10 40,5 T70,15 T100,10"></path>
+</svg>
+</div>
+<div class="flex items-center space-x-2">
+<span class="text-xs font-bold text-primary font-headline">DYNAMIC: ON</span>
+<div class="relative inline-block w-12 h-6 rounded-full bg-primary p-1 cursor-pointer">
+<div class="w-4 h-4 rounded-full bg-white ml-auto"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-outline-variant/10">
+<div>
+<label class="block text-[10px] font-label text-on-surface-variant uppercase mb-1">Floor Price</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-high border-none rounded-lg pl-6 pr-3 py-2 text-sm font-semibold focus:ring-primary" type="text" value="35.00"/>
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-label text-on-surface-variant uppercase mb-1">Ceiling Price</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-high border-none rounded-lg pl-6 pr-3 py-2 text-sm font-semibold focus:ring-primary" type="text" value="65.00"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/5 group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center space-x-4">
+<div class="w-14 h-14 bg-surface-container rounded-lg overflow-hidden shrink-0">
+<img alt="Black Shoe" class="w-full h-full object-cover" data-alt="High-fashion black leather trainer on a dark reflective surface with dramatic side lighting and crisp focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTf0eVxTe1wITiS_9SFeMqLK5Aw-O0ixTP2a5_g3bRf1_TAFa1XMIewvW7JHTYdxPfQigP5P6gAZRCEYCqksh7WQvsjItKTE2fWSRyOYixRUIkgnq32MNh82g5_VKvHmCW_3CcZguwb1wcKrmMl89SCmaKZMb-l6U3XWLL59qVLhgyI67qs0SNztD3sgdGnAIMVbi4QfiGcxWKzG8uT8Y96UvkBsQKPAylMyZS7NlQVPH_jfxjuuje2TVFbtlik7l89hsOxHQ5nB8"/>
+</div>
+<div>
+<h3 class="font-bold font-headline text-on-surface leading-tight">Urban Stealth Elite</h3>
+<p class="text-xs text-on-surface-variant mt-0.5">Category: Casual Footwear</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-xs font-label text-on-surface-variant uppercase tracking-tighter">Current Price</p>
+<p class="text-xl font-black text-primary">$120.45</p>
+</div>
+</div>
+<div class="flex items-end justify-between mb-8">
+<div class="flex-1 max-w-[120px]">
+<p class="text-[10px] text-on-surface-variant font-label uppercase mb-2">7-Day Trend</p>
+<svg class="w-full h-8 overflow-visible" viewbox="0 0 100 30">
+<path class="sparkline-svg" d="M0,20 Q20,25 40,15 T70,10 T100,5"></path>
+</svg>
+</div>
+<div class="flex items-center space-x-2">
+<span class="text-xs font-bold text-primary font-headline">DYNAMIC: ON</span>
+<div class="relative inline-block w-12 h-6 rounded-full bg-primary p-1 cursor-pointer">
+<div class="w-4 h-4 rounded-full bg-white ml-auto"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-outline-variant/10">
+<div>
+<label class="block text-[10px] font-label text-on-surface-variant uppercase mb-1">Floor Price</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-high border-none rounded-lg pl-6 pr-3 py-2 text-sm font-semibold focus:ring-primary" type="text" value="95.00"/>
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-label text-on-surface-variant uppercase mb-1">Ceiling Price</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-high border-none rounded-lg pl-6 pr-3 py-2 text-sm font-semibold focus:ring-primary" type="text" value="155.00"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Add New Product Card -->
+<button class="border-2 border-dashed border-outline-variant/30 rounded-xl p-6 flex flex-col items-center justify-center space-y-3 hover:bg-surface-container transition-colors group">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined text-primary">add</span>
+</div>
+<span class="font-headline font-bold text-on-surface-variant group-hover:text-primary transition-colors">Add Product Control</span>
+</button>
+</div>
+</div>
+<!-- Footer / Notification Toast -->
+<footer class="fixed bottom-8 right-8 z-50">
+<div class="bg-inverse-surface text-inverse-on-surface px-6 py-4 rounded-xl shadow-2xl flex items-center space-x-4 border border-outline-variant/20 animate-in fade-in slide-in-from-bottom-5">
+<span class="material-symbols-outlined text-primary-fixed-dim">auto_awesome</span>
+<p class="text-sm font-medium">Algorithmic pricing engine running: <span class="text-primary-fixed-dim font-bold">STABLE</span></p>
+<div class="h-4 w-[1px] bg-outline-variant/30"></div>
+<button class="text-xs uppercase tracking-widest font-bold hover:text-white transition-colors">Sync Now</button>
+</div>
+</footer>
+</main>
+</body></html>

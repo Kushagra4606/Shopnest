@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ShopNest Admin - Inventory Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#cfbdff",
+              "primary-fixed": "#e8ddff",
+              "outline-variant": "#cbc3d9",
+              "inverse-on-surface": "#f0f1f1",
+              "on-background": "#1a1c1c",
+              "on-error-container": "#93000a",
+              "surface": "#f9f9f9",
+              "surface-bright": "#f9f9f9",
+              "on-surface": "#1a1c1c",
+              "on-tertiary-container": "#ffb6af",
+              "error": "#ba1a1a",
+              "secondary-fixed-dim": "#ffb59e",
+              "inverse-primary": "#cfbdff",
+              "secondary-fixed": "#ffdbd0",
+              "on-primary": "#ffffff",
+              "on-primary-fixed": "#22005d",
+              "tertiary-container": "#aa0917",
+              "on-primary-container": "#d0beff",
+              "on-tertiary-fixed": "#410003",
+              "surface-tint": "#6d23f9",
+              "on-secondary-fixed": "#390c01",
+              "surface-variant": "#e2e2e2",
+              "surface-container-highest": "#e2e2e2",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#eeeeee",
+              "tertiary": "#80000c",
+              "background": "#f9f9f9",
+              "secondary": "#8d4d38",
+              "surface-container-low": "#f3f3f4",
+              "surface-dim": "#dadada",
+              "primary": "#4800b2",
+              "inverse-surface": "#2f3131",
+              "error-container": "#ffdad6",
+              "on-primary-fixed-variant": "#5300cd",
+              "outline": "#7a7488",
+              "secondary-container": "#fdaa90",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-high": "#e8e8e8",
+              "tertiary-fixed": "#ffdad6",
+              "on-tertiary-fixed-variant": "#930010",
+              "on-secondary-container": "#783c28",
+              "tertiary-fixed-dim": "#ffb3ac",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#494456",
+              "on-error": "#ffffff",
+              "on-secondary-fixed-variant": "#713623",
+              "primary-container": "#6200ee"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar (The Anchor) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-zinc-900 flex flex-col py-6 z-50 shadow-2xl shadow-violet-900/20">
+<div class="text-xl font-bold text-white mb-8 px-6 tracking-tighter">ShopNest</div>
+<div class="px-4 mb-4">
+<p class="text-[10px] uppercase tracking-[0.1em] text-zinc-500 font-bold px-2 mb-4">Main Menu</p>
+<nav class="space-y-1">
+<!-- Dashboard -->
+<a class="flex items-center text-zinc-400 hover:text-white mx-2 my-1 px-4 py-3 hover:bg-zinc-800 transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] text-sm tracking-wide">Dashboard</span>
+</a>
+<!-- Inventory (Active Mapping to Products) -->
+<a class="bg-violet-600/20 text-violet-300 rounded-xl mx-2 my-1 px-4 py-3 border-l-4 border-violet-500 flex items-center group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-['Inter'] text-sm tracking-wide font-bold">Inventory</span>
+</a>
+<!-- Pricing -->
+<a class="flex items-center text-zinc-400 hover:text-white mx-2 my-1 px-4 py-3 hover:bg-zinc-800 transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="payments">payments</span>
+<span class="font-['Inter'] text-sm tracking-wide">Pricing</span>
+</a>
+<!-- Orders -->
+<a class="flex items-center text-zinc-400 hover:text-white mx-2 my-1 px-4 py-3 hover:bg-zinc-800 transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="receipt_long">receipt_long</span>
+<span class="font-['Inter'] text-sm tracking-wide">Orders</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center text-zinc-400 hover:text-white mx-2 my-1 px-4 py-3 hover:bg-zinc-800 transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
+<span class="font-['Inter'] text-sm tracking-wide">Settings</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto px-4">
+<div class="flex items-center p-4 bg-zinc-800/50 rounded-2xl mb-4">
+<img alt="Admin Profile" class="w-10 h-10 rounded-full object-cover mr-3 border-2 border-violet-500/30" data-alt="Close-up professional portrait of a gallery curator in a minimalist studio with soft daylight and clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHwICUmjuABg4Tkjh64uBpKKA9H9eGs_h7kHamuhoD2zcJhZlkRD_M-R6b_A-akKBZ0C6KoKjZqv9UeSL6CfxialTU3L0C4uyQJG5OCyUJmzDe4vT4GIJNsmJDEPDGomh_1m35T6JR11Ujs17pSfLpjGlsslFSBYx4WAipI9IMeRP0VwWLsI10s8pEkuRpOwARz0nN0PvbPF2pB-QRryQuFLOsjqXH7uxXr6Ff1nlSkCYeVPfkN2ACWP3yajGNoO8ljdiErOlaHCk"/>
+<div class="overflow-hidden">
+<p class="text-white text-sm font-bold truncate">Admin Portal</p>
+<p class="text-zinc-500 text-[10px] truncate">Inventory Control</p>
+</div>
+</div>
+<a class="flex items-center text-zinc-400 hover:text-white mx-2 my-1 px-4 py-3 hover:bg-zinc-800 transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="logout">logout</span>
+<span class="font-['Inter'] text-sm tracking-wide">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen bg-surface transition-all duration-300">
+<!-- Top Control Bar -->
+<header class="flex justify-between items-center px-10 py-8">
+<div>
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface">Inventory Management</h1>
+<p class="text-on-surface-variant/60 font-medium mt-1">Manage your boutique's curated selection and stock levels.</p>
+</div>
+<button class="flex items-center gap-2 bg-gradient-to-br from-primary to-primary-container text-on-primary px-8 py-4 rounded-xl font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span>Add Product</span>
+</button>
+</header>
+<!-- Search & Filter Area (Tonal Layering) -->
+<section class="px-10 mb-8">
+<div class="bg-surface-container-low rounded-2xl p-4 flex gap-4">
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-lowest border-none rounded-xl focus:ring-2 focus:ring-primary text-sm font-medium placeholder:text-outline" placeholder="Search inventory by name, SKU or category..." type="text"/>
+</div>
+<div class="bg-surface-container-lowest px-4 py-2 rounded-xl flex items-center gap-2 border border-outline-variant/10 cursor-pointer hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="filter_list">filter_list</span>
+<span class="text-sm font-semibold">Filters</span>
+</div>
+</div>
+</section>
+<!-- Inventory Table Container (Bento Style) -->
+<section class="px-10 pb-12">
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0px_24px_48px_rgba(34,0,93,0.04)]">
+<table class="w-full border-collapse text-left">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-5 text-[11px] font-extrabold uppercase tracking-widest text-on-surface-variant/70">Product Name</th>
+<th class="px-6 py-5 text-[11px] font-extrabold uppercase tracking-widest text-on-surface-variant/70">Category</th>
+<th class="px-6 py-5 text-[11px] font-extrabold uppercase tracking-widest text-on-surface-variant/70">Stock Qty</th>
+<th class="px-6 py-5 text-[11px] font-extrabold uppercase tracking-widest text-on-surface-variant/70">Current Price</th>
+<th class="px-6 py-5 text-[11px] font-extrabold uppercase tracking-widest text-on-surface-variant/70 text-center">Dynamic Pricing</th>
+<th class="px-6 py-5 text-[11px] font-extrabold uppercase tracking-widest text-on-surface-variant/70 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high overflow-hidden flex-shrink-0">
+<img alt="Minimalist Watch" class="w-full h-full object-cover" data-alt="High-end minimalist silver wristwatch on a soft silk background with clean architectural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjKESHENxT-nvXXfFjMzNQSZOM39tJEGXxpNM5VZTc8uIwEKVujDJh-ttnKRK2QK8r__vdgDZcGHuVvKbiLF9Sr9CPqwuKB4Qb2BNnkZ7bS6_OQ9KKyWLlTP4O8DlOBuXP4PowHItb74EQpacf6DVsx3ta9dhVTkQqH3nSs7ViYUcPgC6jADw3ctXoPFqzjOmdkDNH1LVUThlys30ITaDa1ZsW07MiqP9CHs8QhKoi-Yy0SRMhXfZCzKmZG1ukzAutsglRBtpLd3w"/>
+</div>
+<div>
+<div class="font-bold text-on-surface">Minimalist Lunar Watch</div>
+<div class="text-xs text-outline font-medium">SKU: WCH-2024-001</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 font-medium text-on-surface-variant">Accessories</td>
+<td class="px-6 py-6">
+<span class="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold border border-emerald-100">42 Units (Active)</span>
+</td>
+<td class="px-6 py-6 font-bold text-on-surface">$249.00</td>
+<td class="px-6 py-6 text-center">
+<div class="inline-flex items-center cursor-pointer">
+<div class="relative w-10 h-5 bg-primary rounded-full transition-colors">
+<div class="absolute left-5 top-1 w-3 h-3 bg-white rounded-full transition-all"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 text-right">
+<div class="flex justify-end gap-3 text-outline opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+<button class="hover:text-error transition-colors"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high overflow-hidden flex-shrink-0">
+<img alt="Studio Headphones" class="w-full h-full object-cover" data-alt="Professional wireless headphones in matte black finish on a dark textured wood surface with dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIfoxI2kXQPV5Xrw-ZgrLEfhYfMhql0hR2Q2rMKcGCPPq5fKZSbljU4FT72nNm6_61NOdIkCrAHdFq6M8oENUR30hT6JRfA4ey36G7ZHsdsJJ-ZZklcT51xScwibcMt5jNzl1UkGhHrlobrkfKkCno0z9SIMsTwuMKQ21BQy3RR1Q3JEiBNdwpC7aBP_mwW92KopxAJ2GhoHdov5HTZcpHAOybY5rEA2XP6oZo-HfyPMHVIGHWc5KchRP4-7rIbjs4JF98j6ClDDw"/>
+</div>
+<div>
+<div class="font-bold text-on-surface">Velvet Audio Gen 2</div>
+<div class="text-xs text-outline font-medium">SKU: AUD-882-VLT</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 font-medium text-on-surface-variant">Electronics</td>
+<td class="px-6 py-6">
+<span class="bg-tertiary-container text-on-tertiary px-3 py-1 rounded-full text-xs font-bold">3 Units (Low Stock)</span>
+</td>
+<td class="px-6 py-6 font-bold text-on-surface">$399.99</td>
+<td class="px-6 py-6 text-center">
+<div class="inline-flex items-center cursor-pointer">
+<div class="relative w-10 h-5 bg-surface-container-highest rounded-full transition-colors">
+<div class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full transition-all"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 text-right">
+<div class="flex justify-end gap-3 text-outline opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+<button class="hover:text-error transition-colors"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high overflow-hidden flex-shrink-0">
+<img alt="Red Sneakers" class="w-full h-full object-cover" data-alt="Vibrant red athletic sneakers floating against a clean white backdrop with soft ambient shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABsXJ3jAgvnH8_iJBQR_rMkSIydq1XfEYNOuyExYYMg7CrlLHu-a-tmoCpjBwP0zWmK3li6-WLD9-XoIDJ9ntPRBQKN7-kB8sDpHrDxSdK8HnJw3vDZdeALp2fq6363Rza0SM1l4bJQlsgylY4wfshdWykdzdDBks-h4kUwrt5ysS1sA3mZI4NawEsErER4mECo2L7adZaZZcaPlPMrw64aOe-p08mBMfTAbWRFplMKYOgHruKGG4UXW_TxS6v6XUiSG4S-SNUPU4"/>
+</div>
+<div>
+<div class="font-bold text-on-surface">Crimson Velocity Runner</div>
+<div class="text-xs text-outline font-medium">SKU: FTW-009-RED</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 font-medium text-on-surface-variant">Footwear</td>
+<td class="px-6 py-6">
+<span class="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold border border-emerald-100">128 Units (Active)</span>
+</td>
+<td class="px-6 py-6 font-bold text-on-surface">$120.00</td>
+<td class="px-6 py-6 text-center">
+<div class="inline-flex items-center cursor-pointer">
+<div class="relative w-10 h-5 bg-primary rounded-full transition-colors">
+<div class="absolute left-5 top-1 w-3 h-3 bg-white rounded-full transition-all"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 text-right">
+<div class="flex justify-end gap-3 text-outline opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+<button class="hover:text-error transition-colors"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high overflow-hidden flex-shrink-0">
+<img alt="Vintage Camera" class="w-full h-full object-cover" data-alt="Classic vintage film camera on a marble surface surrounded by botanical leaves and warm sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJWW5WjmhZvK2uaOP9GGIwwdWmbBAnh3Iowr6TFJMaen0pFmv__UIPUeF6VuD6v95ShjZ7Drl13ZFuBL9c-rnZQGVmKWjB4AQuVFvPXslPNEvs7dRona8nlaSHEGSWgIQqgfKMH1F0FgoSLtJCH2JDyX7DVIOxWRLY0gmPTCYf-QCqPiMIgQJAUuf0ZtNV4TdWHBMfeumnMBXBmzcvCwo-vF-tbb-7RsDNWSkbkduX9QnyI_VNWqHy2ONzmyv_cNhaH92Qfsv89pk"/>
+</div>
+<div>
+<div class="font-bold text-on-surface">Insta-Retro Film Cam</div>
+<div class="text-xs text-outline font-medium">SKU: OPT-445-FILM</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 font-medium text-on-surface-variant">Optics</td>
+<td class="px-6 py-6">
+<span class="bg-tertiary-container text-on-tertiary px-3 py-1 rounded-full text-xs font-bold">1 Unit (Low Stock)</span>
+</td>
+<td class="px-6 py-6 font-bold text-on-surface">$550.00</td>
+<td class="px-6 py-6 text-center">
+<div class="inline-flex items-center cursor-pointer">
+<div class="relative w-10 h-5 bg-surface-container-highest rounded-full transition-colors">
+<div class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full transition-all"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 text-right">
+<div class="flex justify-end gap-3 text-outline opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+<button class="hover:text-error transition-colors"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high overflow-hidden flex-shrink-0">
+<img alt="Silk Scarf" class="w-full h-full object-cover" data-alt="Flowing luxurious silk scarf with abstract geometric patterns in rich purple and gold tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDn3psPgO48kw8rY2xWKAl1_tJAQR1vUrGNVOFSvK1M4PxnnxXT-yJYZg8tpKrG3a9MUOWIZo7JJTdKSv2tl0vfuteAiNnb0JxK3HpXuPPViT6dg8JNdtykRCoQ28GVD8WC9e2KyPmZ5BxvzHY8TDjyQCufwGXjpqxvLzRqXtvuMx8KUtuiCVEG68VE55VxeCibo2IK8TUUw3ZdE4o2ek_55qIlZtDttltCW6R5kW4Skria6_d0_D4T8VyovPrOVzRx9Kx0NQxVqyk"/>
+</div>
+<div>
+<div class="font-bold text-on-surface">Royal Silk Scarf</div>
+<div class="text-xs text-outline font-medium">SKU: ACC-022-SLK</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 font-medium text-on-surface-variant">Accessories</td>
+<td class="px-6 py-6">
+<span class="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold border border-emerald-100">56 Units (Active)</span>
+</td>
+<td class="px-6 py-6 font-bold text-on-surface">$85.00</td>
+<td class="px-6 py-6 text-center">
+<div class="inline-flex items-center cursor-pointer">
+<div class="relative w-10 h-5 bg-primary rounded-full transition-colors">
+<div class="absolute left-5 top-1 w-3 h-3 bg-white rounded-full transition-all"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 text-right">
+<div class="flex justify-end gap-3 text-outline opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+<button class="hover:text-error transition-colors"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination / Table Footer -->
+<div class="px-6 py-5 flex items-center justify-between bg-surface-container-low/50">
+<p class="text-xs font-medium text-on-surface-variant">Showing 5 of 1,240 inventory items</p>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-outline" data-icon="chevron_left">chevron_left</span></button>
+<button class="p-2 rounded-lg bg-primary text-on-primary font-bold text-xs px-4">1</button>
+<button class="p-2 rounded-lg hover:bg-surface-container-high transition-colors text-xs font-bold px-4">2</button>
+<button class="p-2 rounded-lg hover:bg-surface-container-high transition-colors text-xs font-bold px-4">3</button>
+<button class="p-2 rounded-lg hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Overview Cards (Tonal Depth) -->
+<section class="px-10 grid grid-cols-1 md:grid-cols-3 gap-6 pb-12">
+<div class="bg-surface-container-low p-6 rounded-2xl">
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline mb-2">Total Inventory Value</p>
+<h3 class="text-3xl font-black text-on-surface">$1,420,900.50</h3>
+<p class="text-xs font-semibold text-emerald-600 mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+                    +12.5% from last month
+                </p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-2xl">
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline mb-2">Out of Stock Items</p>
+<h3 class="text-3xl font-black text-tertiary">14</h3>
+<p class="text-xs font-semibold text-on-surface-variant/60 mt-2">Requires immediate reorder</p>
+</div>
+<div class="bg-primary/5 p-6 rounded-2xl border border-primary/10">
+<p class="text-[10px] uppercase tracking-widest font-bold text-primary mb-2">Active Pricing Rules</p>
+<h3 class="text-3xl font-black text-on-primary-fixed-variant">8 Active</h3>
+<div class="mt-4 flex -space-x-2">
+<img alt="Team" class="w-8 h-8 rounded-full border-2 border-surface" data-alt="Avatar of a creative team member in a professional office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv7tnRbCbDLqNsiPnT67Mc1hg8d3yOgY6ceN3pUr7SHZmKXIpzPJRIX2Xos_jZcsErOsVaaAaD-0X30pt0h4B96fjRtK0JpaZuEVZ-zO0mvlO0LmHG4xC4Sg4BfDy15wNLcimBPHSrvUEBonOVKNZ_AJsStNcfiLBukXX7IskjVrD9_z77WG57d3BSp5r0FxzD9zQ1-RzhGIBEWWMEPmgjVGHLRoXnt7JdaTzvkWP2q0g9nXrTmg6_lfK986p79CsoQCyZCCTK9bs"/>
+<img alt="Team" class="w-8 h-8 rounded-full border-2 border-surface" data-alt="Avatar of a creative professional with a friendly smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFISmLIISiC3csIDYQ-_U0K7GTI1Ic8b5yXvbQPJwLNkAjoXstDOdS3rQUhn9_7u5_9sPCghPE3LBweqHzf-qbwpL2vm3vHS0c1_hnTo7yyqLVWnWGp9WxfI3-cEdrAAFTqCCnWr_mP2qKZs4Hg0HiiabCbEK4B2qtLQMJ_muA8yZI_ZnaiLVj-57vDSCr6YO5roYE_hhVSbzuXlG7rCxAr62kAZsnF6rfolsL3Z4eIriXDGp2VOkv6GAeuvzGDGtqgTHOSlIOO6w"/>
+<div class="w-8 h-8 rounded-full bg-primary-container text-[10px] text-primary flex items-center justify-center font-bold border-2 border-surface">+4</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>
