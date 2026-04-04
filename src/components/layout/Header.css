@@ -81,6 +81,7 @@
     padding: 0.5rem 1rem;
     border-radius: var(--radius-full);
     transition: all 0.2s;
+    height: 38px;
 }
 
 .cart-btn:hover {
@@ -107,6 +108,9 @@
 
 /* Auth Styles */
 .btn-signin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--color-primary);
     color: var(--color-white);
     padding: 0.5rem 1.25rem;
@@ -114,6 +118,7 @@
     font-weight: 600;
     font-size: 0.9rem;
     transition: background-color 0.2s;
+    height: 38px;
 }
 
 .btn-signin:hover {
@@ -255,5 +260,22 @@
 
     .user-name {
         display: none;
+    }
+
+    .header-actions {
+        gap: var(--spacing-xs);
+    }
+    
+    .logo-text {
+        display: none;
+    }
+
+    .cart-btn {
+        padding: 0.5rem;
+    }
+    
+    .btn-signin {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
     }
 }
