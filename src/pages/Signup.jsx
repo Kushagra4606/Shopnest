@@ -19,7 +19,7 @@ const Signup = () => {
             'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'live.com',
             'icloud.com', 'aol.com', 'protonmail.com', 'zoho.com', 'mail.com',
             'yandex.com', 'gmx.com', 'fastmail.com', 'tutanota.com',
-            'yahoo.co.in', 'rediffmail.com', 'msn.com'
+            'yahoo.co.in', 'rediffmail.com', 'msn.com', 'example.com', 'test.com', 'shopnest.com'
         ];
         const emailDomain = email.split('@')[1]?.toLowerCase();
         if (!emailDomain || !allowedDomains.includes(emailDomain)) {
