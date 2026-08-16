@@ -64,7 +64,8 @@ const dbAdapter = {
                 description TEXT,
                 price INTEGER,
                 reviews INTEGER,
-                image TEXT
+                image TEXT,
+                images TEXT
             )`,
             `CREATE TABLE IF NOT EXISTS wishlist_items (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -98,6 +99,18 @@ const dbAdapter = {
         } catch (e) {
             // Pragma might fail on some cloud configs or if table doesn't exist yet
             console.log("Migration check info:", e.message);
+        }
+
+        // Migration logic for 'images' column in products table
+        try {
+            const rows = await dbAdapter.all("PRAGMA table_info(products)");
+            const hasImages = rows.some(r => r.name === 'images');
+            if (!hasImages) {
+                await dbAdapter.run("ALTER TABLE products ADD COLUMN images TEXT");
+                console.log("Migrated products table: added images column");
+            }
+        } catch (e) {
+            console.log("Migration check info for products images column:", e.message);
         }
     },
 

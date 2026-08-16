@@ -7,6 +7,13 @@ import './ProductDetailsModal.css';
 const ProductDetailsModal = ({ product, onClose }) => {
     const { addToCart } = useCart();
     const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+    const [activeImage, setActiveImage] = useState(null);
+
+    useEffect(() => {
+        if (product) {
+            setActiveImage(product.image);
+        }
+    }, [product]);
 
     if (!product) return null;
 
@@ -37,6 +44,16 @@ const ProductDetailsModal = ({ product, onClose }) => {
         };
     }, []);
 
+    let imageList = [];
+    try {
+        imageList = product.images ? JSON.parse(product.images) : [];
+    } catch (e) {
+        imageList = [];
+    }
+    if (!Array.isArray(imageList) || imageList.length === 0) {
+        imageList = product.image ? [product.image] : [];
+    }
+
     return (
         <div className="modal-backdrop" onClick={onClose}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -45,8 +62,28 @@ const ProductDetailsModal = ({ product, onClose }) => {
                 </button>
 
                 <div className="modal-body">
-                    <div className="modal-image-container">
-                        <img src={product.image} alt={product.name} className="modal-image" />
+                    <div className="modal-image-container flex flex-col p-6 gap-4">
+                        <div className="w-full h-80 flex items-center justify-center bg-gray-50 rounded-xl overflow-hidden">
+                            <img src={activeImage || product.image} alt={product.name} className="max-h-full max-w-full object-contain" />
+                        </div>
+                        {imageList.length > 1 && (
+                            <div className="flex gap-2 overflow-x-auto w-full py-1 justify-center">
+                                {imageList.map((url, index) => {
+                                    const isActive = (activeImage || product.image) === url;
+                                    return (
+                                        <button 
+                                            key={index}
+                                            onClick={() => setActiveImage(url)}
+                                            className={`w-12 h-12 rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all ${
+                                                isActive ? 'border-[#4800b2] scale-105 shadow-sm' : 'border-gray-200 hover:border-gray-300'
+                                            }`}
+                                        >
+                                            <img src={url} alt={`thumb ${index}`} className="w-full h-full object-cover" />
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        )}
                     </div>
 
                     <div className="modal-info">

@@ -196,11 +196,12 @@ app.post('/api/upload', verifyAdmin, upload.single('image'), async (req, res) =>
 
 // Create Product
 app.post('/api/products', verifyAdmin, async (req, res) => {
-    const { name, description, price, image } = req.body;
+    const { name, description, price, image, images } = req.body;
+    const imagesJson = Array.isArray(images) ? JSON.stringify(images) : JSON.stringify([image]);
     try {
         const result = await db.run(
-            `INSERT INTO products (name, description, price, reviews, image) VALUES (?, ?, ?, 0, ?)`,
-            [name, description, price, image]
+            `INSERT INTO products (name, description, price, reviews, image, images) VALUES (?, ?, ?, 0, ?, ?)`,
+            [name, description, price, image, imagesJson]
         );
         res.json({ success: true, id: result.lastID });
     } catch (e) {
@@ -210,11 +211,12 @@ app.post('/api/products', verifyAdmin, async (req, res) => {
 
 // Update Product
 app.put('/api/products/:id', verifyAdmin, async (req, res) => {
-    const { name, description, price, image } = req.body;
+    const { name, description, price, image, images } = req.body;
+    const imagesJson = Array.isArray(images) ? JSON.stringify(images) : JSON.stringify([image]);
     try {
         await db.run(
-            `UPDATE products SET name = ?, description = ?, price = ?, image = ? WHERE id = ?`,
-            [name, description, price, image, req.params.id]
+            `UPDATE products SET name = ?, description = ?, price = ?, image = ?, images = ? WHERE id = ?`,
+            [name, description, price, image, imagesJson, req.params.id]
         );
         res.json({ success: true });
     } catch (e) {

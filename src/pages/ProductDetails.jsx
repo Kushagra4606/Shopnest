@@ -6,6 +6,8 @@ const ProductDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [product, setProduct] = useState(null);
+    const [activeImage, setActiveImage] = useState(null);
+    const [groupOption, setGroupOption] = useState('none'); // 'none', '2', '5'
     const { addToCart } = useCart();
 
     useEffect(() => {
@@ -13,13 +15,66 @@ const ProductDetails = () => {
             .then(res => res.json())
             .then(data => {
                 const found = data.find(p => p.id === parseInt(id));
-                if (found) setProduct(found);
+                if (found) {
+                    setProduct(found);
+                    setActiveImage(found.image);
+                }
                 else navigate('/shop');
             })
             .catch(err => console.error(err));
     }, [id, navigate]);
 
     if (!product) return <div className="pt-32 text-center">Loading product...</div>;
+
+    let imageList = [];
+    try {
+        imageList = product.images ? JSON.parse(product.images) : [];
+    } catch (e) {
+        imageList = [];
+    }
+    if (!Array.isArray(imageList) || imageList.length === 0) {
+        imageList = product.image ? [product.image] : [];
+    }
+
+    const currentPrice = 
+        groupOption === 'none' 
+            ? product.price 
+            : groupOption === '2' 
+                ? product.price * 0.95 
+                : product.price * 0.90;
+
+    const handleAddToCart = (e) => {
+        e.preventDefault();
+        let cartProduct = { ...product };
+        if (groupOption === '2') {
+            cartProduct.price = product.price * 0.95;
+            cartProduct.name = `${product.name} (2-People Group)`;
+        } else if (groupOption === '5') {
+            cartProduct.price = product.price * 0.90;
+            cartProduct.name = `${product.name} (5-People Group)`;
+        }
+        addToCart(cartProduct);
+    };
+
+    const handleJoinGroupOrder = (e) => {
+        e.preventDefault();
+        if (groupOption === 'none') {
+            alert('Please select a 2-People or 5-People group buying option first!');
+            return;
+        }
+        let cartProduct = { ...product };
+        if (groupOption === '2') {
+            cartProduct.price = product.price * 0.95;
+            cartProduct.name = `${product.name} (2-People Group)`;
+            alert(`Joined Group Order! You and 1 friend will get 5% OFF. Price: $${cartProduct.price.toLocaleString()}`);
+        } else if (groupOption === '5') {
+            cartProduct.price = product.price * 0.90;
+            cartProduct.name = `${product.name} (5-People Group)`;
+            alert(`Joined Group Order! You and 4 friends will get 10% OFF. Price: $${cartProduct.price.toLocaleString()}`);
+        }
+        addToCart(cartProduct);
+    };
+
     return (
         <div className="pt-24 pb-12 max-w-screen-2xl mx-auto px-6 font-body">
             {/* Breadcrumb */}
@@ -34,27 +89,27 @@ const ProductDetails = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                 {/* Left: Product Media */}
                 <div className="lg:col-span-7 flex flex-col gap-6">
-                    <div className="aspect-[4/3] w-full rounded-lg overflow-hidden bg-gray-100 shadow-sm relative group">
-                        <img className="w-full h-full object-cover" src={product.image} alt={product.name} />
+                    <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden bg-gray-100 shadow-sm relative group border border-gray-100">
+                        <img className="w-full h-full object-cover transition-all duration-300" src={activeImage || product.image} alt={product.name} />
                     </div>
-                    <div className="grid grid-cols-5 gap-4">
-                        <button className="aspect-square rounded-md overflow-hidden ring-2 ring-[#4800b2] ring-offset-2">
-                            <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnh5WVloQBVasfvX39jBHZh081Zci9shkuFYcdSqA6V29HN-aGGUadwzjjlmeOiXjh-X_u-29miqw6AiLlSTnUeWW03IiloTxo9KnUXh2ccXvV3yfteZ_4ZVKRajur6sC7xzlPosXaTHwF4bcImRQ1hkmb6rFVwQl0zCTg48VbPdS4IUg5i-FCotMiUTT5CxDJe7inVBu3DO2C3skR-s4uWbOwtRd7uYBZ9rwPjtbbkrRHF8NWI2o60I7V6D79JG7KQ5QX6EGasv0" alt="detail" />
-                        </button>
-                        <button className="aspect-square rounded-md overflow-hidden bg-gray-100 hover:opacity-80 transition-opacity">
-                            <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCSEnndlaa20sDlxPdnMoYFLuOmwTVP8uY_egAqi7aTtIfKlLMtZWbVx4F3V3bgzs8W_bOt7nUCSobIU-esnhiZ1zoB0yjQlr6Jq1PzlQuxm5SkJolt_-X6wwrkObTTvoBS4881mJCSUYC7PI4JKcCxn-iv49hANFHHSGECv4Y2y4oIKf4lCZYeiCAeWhcBEuis4O2c7tpU2lp8DnU5p3TwPUSINUhZ23tU1_mulipH7i5NM-BJW2pzYhyK3ZhtoyAIY8znv2rPPo" alt="detail" />
-                        </button>
-                        <button className="aspect-square rounded-md overflow-hidden bg-gray-100 hover:opacity-80 transition-opacity">
-                            <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCm1qo5kWIIMBRRzdY87Lh1DxdvTIF1O1nelIF1-qxS_I1YGzGlzY84R0jqBEHza_laysLt-U9PVNAPRdHL9uqD8CUJHBDlSzIs67tgln_SYenpiA81ESl3aEwa5YKjniEDH4X_yJox4CnjUf9wMggZe-comhiNp4inOqj-FRuJ5j-Mw3HIKdI0ZaCge4A2BZdgblAZnMXUpd6yQhJz7Ol27dABAXrLzd0zrUvC6je4r49g1L1l2RbJu-hcEe0rywioIL5-oXLS44g" alt="detail" />
-                        </button>
-                        <button className="aspect-square rounded-md overflow-hidden bg-gray-100 hover:opacity-80 transition-opacity">
-                            <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRDuSRn2NPvjtdYGMOkgTb_J4s9AdqhuNOcXEn9DEhMCFniz8DZPkDnqGzzosYU8ajX63oMXX7n-lrfS9WgtxEg23u9cAN5Qq98PnWKgSunims2RkBoYLe7sntXnbveLhdo2TzOFP91ep4cJBgke6VEEzsZEGwlE8fFcZ_NAopzjp5GcLfngWS1p31E6OrhcERpLSdG6j3sFGkCSIPVxMUWdm_vI6lFY1MMq5HYUrmMVwF1vLMvUXBXRcLn_mggA-3zgOzLjEN30E" alt="detail" />
-                        </button>
-                        <button className="aspect-square rounded-md overflow-hidden bg-gray-100 flex items-center justify-center relative">
-                            <img className="w-full h-full object-cover opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkmZjVsB7gnxYmjsGWsbuoK5QH-AGnmARx-1Ex-1l55rovfxqF4dL0QXbVmpUZlF1Plk1eef1gjX2IRciAfL8ZXrXoRB5mMxK7U0hXZ1MMzJOohhxCplLKExzT3WOlJrAAbCa-rO4Rgp3HQv7ZvN35AlJ_qR6BAhoVkA4naKKKZ3tFHmz5kNSeOCmAl5AnxgWZj32_i9_Hl4n65SIgZlmElBT5ZMEnbayD7S8dnlSH5Orq8aK3Ok6NePnTJChfK51xQbGzfU24MN4" alt="video thumbnail" />
-                            <span className="material-symbols-outlined absolute text-3xl text-gray-900">play_circle</span>
-                        </button>
-                    </div>
+                    {imageList.length > 1 && (
+                        <div className="grid grid-cols-6 gap-4">
+                            {imageList.map((url, index) => {
+                                const isActive = activeImage === url;
+                                return (
+                                    <button 
+                                        key={index}
+                                        onClick={() => setActiveImage(url)}
+                                        className={`aspect-square rounded-xl overflow-hidden bg-gray-50 border-2 transition-all ${
+                                            isActive ? 'border-[#4800b2] ring-2 ring-[#4800b2]/20 scale-105' : 'border-gray-200 hover:border-gray-300'
+                                        }`}
+                                    >
+                                        <img className="w-full h-full object-cover" src={url} alt={`detail ${index}`} />
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
 
                 {/* Right: Product Information */}
@@ -72,7 +127,7 @@ const ProductDetails = () => {
                         <p className="text-gray-500 text-lg leading-relaxed mb-6">{product.description}</p>
                         <div className="flex flex-col gap-4">
                             <div className="flex items-end gap-4">
-                                <span className="text-5xl font-headline font-black text-[#4800b2] tracking-tighter">${product.price}</span>
+                                <span className="text-5xl font-headline font-black text-[#4800b2] tracking-tighter">${currentPrice.toLocaleString()}</span>
                                 <div className="flex flex-col mb-1">
                                     <span className="bg-[#fdaa90] text-[#783c28] px-3 py-1 rounded-md text-xs font-bold inline-flex items-center gap-1">
                                         <span className="material-symbols-outlined text-[14px]">trending_up</span>
@@ -103,24 +158,72 @@ const ProductDetails = () => {
                                 <span className="material-symbols-outlined">groups</span>
                             </div>
                             <div>
-                                <h3 className="font-headline font-bold text-lg text-gray-900">Group Buying Discount</h3>
-                                <p className="text-xs text-gray-500">Unlock significant savings by buying with others.</p>
+                                <h3 className="font-headline font-bold text-lg text-gray-900">Buying Options</h3>
+                                <p className="text-xs text-gray-500">Select a buying mode to unlock exclusive discounts.</p>
                             </div>
                         </div>
                         <div className="space-y-3">
-                            <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            {/* Standard Option */}
+                            <div 
+                                onClick={() => setGroupOption('none')}
+                                className={`flex justify-between items-center p-3 rounded-lg cursor-pointer transition-all border ${
+                                    groupOption === 'none' 
+                                        ? 'bg-purple-50/50 border-[#4800b2] ring-1 ring-[#4800b2]/20' 
+                                        : 'bg-gray-50 border-transparent hover:bg-gray-100/75'
+                                }`}
+                            >
                                 <div className="flex items-center gap-3">
-                                    <span className="text-sm font-bold text-gray-900">2 People</span>
-                                    <span className="text-xs text-gray-500">Standard Duo</span>
+                                    <span className="material-symbols-outlined text-[18px] text-gray-500">person</span>
+                                    <div>
+                                        <span className="text-sm font-bold text-gray-900 block">Single Purchase</span>
+                                        <span className="text-[10px] text-gray-500">Standard checkout price</span>
+                                    </div>
                                 </div>
-                                <span className="text-[#4800b2] font-black">5% OFF</span>
+                                <span className="text-gray-900 font-bold">${product.price.toLocaleString()}</span>
                             </div>
-                            <div className="flex justify-between items-center p-3 bg-purple-50 ring-1 ring-[#4800b2]/20 rounded-lg">
+
+                            {/* 2 People Option */}
+                            <div 
+                                onClick={() => setGroupOption('2')}
+                                className={`flex justify-between items-center p-3 rounded-lg cursor-pointer transition-all border ${
+                                    groupOption === '2' 
+                                        ? 'bg-purple-50/50 border-[#4800b2] ring-1 ring-[#4800b2]/20' 
+                                        : 'bg-gray-50 border-transparent hover:bg-gray-100/75'
+                                }`}
+                            >
                                 <div className="flex items-center gap-3">
-                                    <span className="text-sm font-bold text-[#4800b2]">5 People</span>
-                                    <span className="text-xs text-[#4800b2]/70">Popular Choice</span>
+                                    <span className="material-symbols-outlined text-[18px] text-[#4800b2]">group</span>
+                                    <div>
+                                        <span className="text-sm font-bold text-gray-900 block">2 People Group</span>
+                                        <span className="text-[10px] text-gray-500">Buy together &amp; save 5%</span>
+                                    </div>
                                 </div>
-                                <span className="text-[#4800b2] font-black">10% OFF</span>
+                                <div className="text-right">
+                                    <span className="block text-[#4800b2] font-black">${(product.price * 0.95).toLocaleString()}</span>
+                                    <span className="text-[9px] line-through text-gray-400">${product.price.toLocaleString()}</span>
+                                </div>
+                            </div>
+
+                            {/* 5 People Option */}
+                            <div 
+                                onClick={() => setGroupOption('5')}
+                                className={`flex justify-between items-center p-3 rounded-lg cursor-pointer transition-all border ${
+                                    groupOption === '5' 
+                                        ? 'bg-purple-50/50 border-[#4800b2] ring-1 ring-[#4800b2]/20' 
+                                        : 'bg-gray-50 border-transparent hover:bg-gray-100/75'
+                                }`}
+                            >
+                                <div className="flex items-center gap-3">
+                                    <span className="material-symbols-outlined text-[18px] text-[#4800b2]">groups</span>
+                                    <div>
+                                        <span className="text-sm font-bold text-[#4800b2] block">5 People Group</span>
+                                        <span className="text-[10px] text-gray-500">Buy together &amp; save 10%</span>
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <span className="block text-[#4800b2] font-black">${(product.price * 0.90).toLocaleString()}</span>
+                                    <span className="text-[9px] line-through text-gray-400">${product.price.toLocaleString()}</span>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -128,12 +231,19 @@ const ProductDetails = () => {
                     {/* Actions */}
                     <div className="flex flex-col gap-4 mt-2">
                         <button 
-                            onClick={(e) => { e.preventDefault(); addToCart(product); }}
+                            onClick={handleAddToCart}
                             className="bg-gradient-to-br from-[#4800b2] to-[#6200ee] text-white py-5 rounded-xl font-headline font-bold text-lg flex items-center justify-center gap-2 shadow-xl hover:opacity-90 active:scale-95 transition-all">
                             <span className="material-symbols-outlined">add_shopping_cart</span>
                             Add to Cart
                         </button>
-                        <button className="border-2 border-[#4800b2] text-[#4800b2] py-4 rounded-xl font-headline font-bold flex items-center justify-center gap-2 hover:bg-[#4800b2]/5 transition-colors active:scale-95">
+                        <button 
+                            onClick={handleJoinGroupOrder}
+                            className={`py-4 rounded-xl font-headline font-bold flex items-center justify-center gap-2 transition-all active:scale-95 border-2 ${
+                                groupOption !== 'none'
+                                    ? 'bg-[#4800b2] text-white border-[#4800b2] shadow-lg shadow-[#4800b2]/20'
+                                    : 'border-[#4800b2] text-[#4800b2] hover:bg-[#4800b2]/5'
+                            }`}
+                        >
                             <span className="material-symbols-outlined">group_add</span>
                             Join Group Order
                         </button>

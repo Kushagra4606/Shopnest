@@ -11,10 +11,12 @@ const ProductForm = () => {
         name: '',
         description: '',
         price: '',
-        image: ''
+        image: '',
+        images: []
     });
     const [loading, setLoading] = useState(false);
     const [initialLoading, setInitialLoading] = useState(isEditMode);
+    const [newUrl, setNewUrl] = useState('');
     const { currentUser } = useAuth();
 
     useEffect(() => {
@@ -24,11 +26,21 @@ const ProductForm = () => {
                 .then(products => {
                     const product = products.find(p => p.id === parseInt(id));
                     if (product) {
+                        let parsedImages = [];
+                        try {
+                            parsedImages = product.images ? JSON.parse(product.images) : [];
+                        } catch (e) {
+                            parsedImages = [];
+                        }
+                        if (!Array.isArray(parsedImages) || parsedImages.length === 0) {
+                            parsedImages = product.image ? [product.image] : [];
+                        }
                         setFormData({
                             name: product.name,
                             description: product.description,
                             price: product.price,
-                            image: product.image
+                            image: product.image || '',
+                            images: parsedImages
                         });
                     }
                     setInitialLoading(false);
@@ -46,30 +58,49 @@ const ProductForm = () => {
     };
 
     const handleFileChange = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const uploadData = new FormData();
-        uploadData.append('image', file);
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
 
         const token = localStorage.getItem('token');
         setLoading(true);
 
+        const uploadedUrls = [];
         try {
-            const res = await fetch('/api/upload', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                body: uploadData
-            });
+            for (const file of files) {
+                const uploadData = new FormData();
+                uploadData.append('image', file);
 
-            if (res.ok) {
-                const data = await res.json();
-                setFormData(prev => ({ ...prev, image: data.url }));
-            } else {
-                const data = await res.json();
-                alert(data.error || 'Upload failed');
+                const res = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: uploadData
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    uploadedUrls.push(data.url);
+                } else {
+                    const data = await res.json();
+                    alert(data.error || `Upload failed for ${file.name}`);
+                }
+            }
+
+            if (uploadedUrls.length > 0) {
+                setFormData(prev => {
+                    const updatedImages = [...prev.images];
+                    uploadedUrls.forEach(url => {
+                        if (!updatedImages.includes(url)) {
+                            updatedImages.push(url);
+                        }
+                    });
+                    return {
+                        ...prev,
+                        images: updatedImages,
+                        image: prev.image || updatedImages[0] || ''
+                    };
+                });
             }
         } catch (error) {
             console.error('Upload error:', error);
@@ -77,6 +108,51 @@ const ProductForm = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleAddUrl = (e) => {
+        e.preventDefault();
+        if (!newUrl.trim()) return;
+        if (!newUrl.startsWith('http://') && !newUrl.startsWith('https://')) {
+            alert('Please enter a valid URL starting with http:// or https://');
+            return;
+        }
+
+        setFormData(prev => {
+            const updatedImages = [...prev.images];
+            if (!updatedImages.includes(newUrl)) {
+                updatedImages.push(newUrl);
+            }
+            return {
+                ...prev,
+                images: updatedImages,
+                image: prev.image || newUrl
+            };
+        });
+        setNewUrl('');
+    };
+
+    const handleRemoveImage = (indexToRemove) => {
+        setFormData(prev => {
+            const updatedImages = prev.images.filter((_, idx) => idx !== indexToRemove);
+            let nextPrimary = prev.image;
+            // If the deleted image was primary, pick the first remaining or empty
+            if (prev.image === prev.images[indexToRemove]) {
+                nextPrimary = updatedImages[0] || '';
+            }
+            return {
+                ...prev,
+                images: updatedImages,
+                image: nextPrimary
+            };
+        });
+    };
+
+    const handleSetPrimary = (url) => {
+        setFormData(prev => ({
+            ...prev,
+            image: url
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -222,24 +298,31 @@ const ProductForm = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-[10px] font-bold tracking-widest text-gray-500 uppercase mb-2">Product Image</label>
+                                    <label className="block text-[10px] font-bold tracking-widest text-gray-500 uppercase mb-2">Product Images (Add Multiple)</label>
                                     
-                                    <div className="flex gap-4">
-                                        <div className="flex-1 w-full bg-[#f3f3f4] border-none rounded-lg px-4 py-3 text-sm focus-within:ring-2 focus-within:ring-[#4800b2] transition-all">
+                                    {/* Upload and URL input */}
+                                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                                        <div className="flex-1 flex gap-2">
                                             <input
                                                 type="url"
-                                                name="image"
-                                                value={formData.image}
-                                                onChange={handleChange}
-                                                required
-                                                placeholder="https://example.com/image.jpg"
-                                                className="w-full bg-transparent border-none p-0 focus:ring-0 text-sm"
+                                                value={newUrl}
+                                                onChange={(e) => setNewUrl(e.target.value)}
+                                                placeholder="Enter image URL..."
+                                                className="flex-1 bg-[#f3f3f4] border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-[#4800b2] transition-all"
                                             />
+                                            <button 
+                                                type="button"
+                                                onClick={handleAddUrl}
+                                                className="bg-zinc-800 text-white px-4 py-3 rounded-lg text-sm font-semibold hover:bg-zinc-700 transition-colors"
+                                            >
+                                                Add URL
+                                            </button>
                                         </div>
-                                        <div className="relative overflow-hidden w-auto flex-shrink-0 cursor-pointer text-[#4800b2] font-semibold flex items-center justify-center px-4 bg-[#e8ddff] rounded-lg cursor-pointer">
-                                            <span>Upload Image</span>
+                                        <div className="relative overflow-hidden w-auto flex-shrink-0 cursor-pointer text-[#4800b2] font-semibold flex items-center justify-center px-4 py-3 bg-[#e8ddff] rounded-lg cursor-pointer">
+                                            <span>Upload Image File(s)</span>
                                             <input 
                                                 type="file" 
+                                                multiple
                                                 className="absolute inset-0 opacity-0 cursor-pointer" 
                                                 accept="image/*"
                                                 onChange={handleFileChange}
@@ -247,13 +330,65 @@ const ProductForm = () => {
                                             />
                                         </div>
                                     </div>
-                                    {loading && <p className="text-sm mt-2 text-gray-500">Uploading...</p>}
-
-                                    {formData.image && (
-                                        <div className="mt-4 w-32 h-32 rounded-lg bg-gray-100 overflow-hidden border border-gray-200">
-                                            <img src={formData.image} alt="Preview" className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
+                                    
+                                    {loading && (
+                                        <div className="flex items-center gap-2 mb-4 text-sm text-gray-500 font-semibold">
+                                            <span className="animate-spin material-symbols-outlined text-[16px]">sync</span> Uploading...
                                         </div>
                                     )}
+
+                                    {/* Primary/Thumbnail Selection Instructions */}
+                                    {formData.images.length > 0 && (
+                                        <p className="text-xs text-gray-400 mb-3">
+                                            * Click on any image's star to set it as the primary thumbnail.
+                                        </p>
+                                    )}
+
+                                    {/* Images Grid */}
+                                    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4">
+                                        {formData.images.map((url, index) => {
+                                            const isPrimary = formData.image === url;
+                                            return (
+                                                <div 
+                                                    key={index} 
+                                                    className={`relative aspect-square rounded-xl overflow-hidden border-2 bg-gray-50 flex flex-col justify-between group transition-all ${
+                                                        isPrimary ? 'border-[#4800b2] ring-2 ring-[#4800b2]/20' : 'border-gray-200 hover:border-gray-300'
+                                                    }`}
+                                                >
+                                                    <img src={url} alt={`Gallery ${index}`} className="w-full h-full object-cover" />
+                                                    
+                                                    {/* Controls overlay */}
+                                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                                                        <button 
+                                                            type="button"
+                                                            title="Set as primary thumbnail"
+                                                            onClick={() => handleSetPrimary(url)}
+                                                            className={`p-2 rounded-full transition-colors ${
+                                                                isPrimary ? 'bg-[#fbbf24] text-white' : 'bg-white hover:bg-amber-50 text-amber-500'
+                                                            }`}
+                                                        >
+                                                            <span className="material-symbols-outlined text-[20px]" style={{fontVariationSettings: isPrimary ? "'FILL' 1" : "'FILL' 0"}}>star</span>
+                                                        </button>
+                                                        <button 
+                                                            type="button"
+                                                            title="Remove image"
+                                                            onClick={() => handleRemoveImage(index)}
+                                                            className="p-2 bg-white hover:bg-red-50 text-red-500 rounded-full transition-colors"
+                                                        >
+                                                            <span className="material-symbols-outlined text-[20px]">delete</span>
+                                                        </button>
+                                                    </div>
+
+                                                    {/* Badges */}
+                                                    {isPrimary && (
+                                                        <div className="absolute top-2 left-2 bg-[#4800b2] text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
+                                                            Primary
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
                             </div>
 
