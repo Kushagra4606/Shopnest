@@ -13,6 +13,20 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Validate email domain
+        const allowedDomains = [
+            'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'live.com',
+            'icloud.com', 'aol.com', 'protonmail.com', 'zoho.com', 'mail.com',
+            'yandex.com', 'gmx.com', 'fastmail.com', 'tutanota.com',
+            'yahoo.co.in', 'rediffmail.com', 'msn.com'
+        ];
+        const emailDomain = email.split('@')[1]?.toLowerCase();
+        if (!emailDomain || !allowedDomains.includes(emailDomain)) {
+            setError('Please use a valid email from a recognized provider (e.g., Gmail, Yahoo, Outlook)');
+            return;
+        }
+        
         try {
             setError('');
             await register(name, email, password);
@@ -45,6 +59,7 @@ const Signup = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
+                        <p style={{ fontSize: '11px', color: '#888', marginTop: '4px' }}>Use a valid email (Gmail, Yahoo, Outlook, etc.)</p>
                     </div>
                     <div className="form-group">
                         <label>Password</label>

@@ -25,6 +25,11 @@ export const CartProvider = ({ children }) => {
     }, [currentUser]);
 
     const addToCart = (product) => {
+        if (!currentUser) {
+            alert('Please login to add items to cart');
+            return false;
+        }
+
         // Optimistic Update
         setCartItems(prev => {
             const existing = prev.find(item => item.id === product.id);
@@ -37,16 +42,14 @@ export const CartProvider = ({ children }) => {
         });
         setIsCartOpen(true);
 
-        if (currentUser) {
-            fetch('/api/cart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify({ productId: product.id, quantity: 1 })
-            }).catch(console.error);
-        }
+        fetch('/api/cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({ productId: product.id, quantity: 1 })
+        }).catch(console.error);
     };
 
     const removeFromCart = (id) => {

@@ -74,7 +74,7 @@ const CheckoutForm = ({ onClose }) => {
     return (
         <form onSubmit={handleSubmit} className="payment-form">
             <h3>Pay with Card</h3>
-            <p className="payment-amount">Total: ₹{cartTotal.toLocaleString()}</p>
+            <p className="payment-amount">Total: ${cartTotal.toLocaleString()}</p>
 
             <div className="card-element-container">
                 <CardElement options={{
@@ -96,7 +96,7 @@ const CheckoutForm = ({ onClose }) => {
             {error && <div className="payment-error">{error}</div>}
 
             <button type="submit" disabled={!stripe || processing} className="btn btn-primary pay-btn">
-                {processing ? 'Processing...' : `Pay ₹${cartTotal.toLocaleString()}`}
+                {processing ? 'Processing...' : `Pay $${cartTotal.toLocaleString()}`}
             </button>
             <button type="button" onClick={onClose} className="btn-cancel">Cancel</button>
         </form>

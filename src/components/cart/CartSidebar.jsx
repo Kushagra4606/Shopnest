@@ -64,7 +64,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                                             <span className="text-xs font-semibold px-1 min-w-[20px] text-center">{item.quantity}</span>
                                             <button onClick={() => updateQuantity(item.id, 1)} className="px-2 text-gray-500 hover:text-primary dark:hover:text-white">+</button>
                                         </div>
-                                        <span className="font-bold text-sm text-primary dark:text-white">₹{item.price.toLocaleString()}</span>
+                                        <span className="font-bold text-sm text-primary dark:text-white">${item.price.toLocaleString()}</span>
                                     </div>
                                     <button onClick={() => removeFromCart(item.id)} className="text-xs text-warm-coral text-left mt-1 hover:underline">Remove</button>
                                 </div>
@@ -77,7 +77,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                     <div className="p-6 bg-gray-50 dark:bg-[#19191f] border-t border-gray-100 dark:border-gray-800">
                         <div className="flex items-center justify-between mb-4">
                             <span className="text-gray-500 text-sm">Subtotal</span>
-                            <span className="text-xl font-bold text-primary dark:text-white">₹{cartTotal.toLocaleString()}</span>
+                            <span className="text-xl font-bold text-primary dark:text-white">${cartTotal.toLocaleString()}</span>
                         </div>
                         <p className="text-xs text-gray-400 mb-4 text-center">Shipping &amp; taxes calculated at checkout</p>
                         <button onClick={handleCheckout} className="w-full bg-warm-coral hover:bg-[#E07A66] text-white font-bold py-3.5 rounded-lg shadow-lg hover:shadow-warm-coral/30 transition-all flex items-center justify-center gap-2">

@@ -35,7 +35,7 @@ const WishlistSidebar = () => {
                                 <img src={item.image} alt={item.name} className="wishlist-item-image" />
                                 <div className="wishlist-item-details">
                                     <h4>{item.name}</h4>
-                                    <p>₹{item.price}</p>
+                                    <p>${item.price}</p>
                                     <div className="wishlist-actions">
                                         <button
                                             className="move-to-cart-btn"

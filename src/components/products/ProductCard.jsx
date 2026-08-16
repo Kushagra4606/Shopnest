@@ -50,7 +50,7 @@ const ProductCard = ({ product, onClick }) => {
                 <p className="product-desc">{product.description}</p>
 
                 <div className="product-footer">
-                    <div className="product-price">₹{product.price.toLocaleString()}</div>
+                    <div className="product-price">${product.price.toLocaleString()}</div>
                     <button
                         className="btn-add-cart"
                         onClick={handleAddToCart}

@@ -61,7 +61,7 @@ const ProductDetailsModal = ({ product, onClose }) => {
                             </div>
                         </div>
 
-                        <div className="modal-price">₹{product.price.toLocaleString()}</div>
+                        <div className="modal-price">${product.price.toLocaleString()}</div>
 
                         <p className="modal-description">
                             {product.description || "Experience premium quality with this exceptional product. Designed for modern living, it combines style and functionality seamlessly."}

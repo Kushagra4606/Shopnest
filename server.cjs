@@ -90,6 +90,24 @@ app.post('/api/register', async (req, res) => {
     const { name, email, password } = req.body;
     if (!name || !email || !password) return res.status(400).json({ error: 'All fields required' });
 
+    // Validate email format
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: 'Please enter a valid email address' });
+    }
+
+    // Only allow registration with well-known email providers
+    const allowedDomains = [
+        'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'live.com',
+        'icloud.com', 'aol.com', 'protonmail.com', 'zoho.com', 'mail.com',
+        'yandex.com', 'gmx.com', 'fastmail.com', 'tutanota.com',
+        'yahoo.co.in', 'rediffmail.com', 'msn.com'
+    ];
+    const emailDomain = email.split('@')[1].toLowerCase();
+    if (!allowedDomains.includes(emailDomain)) {
+        return res.status(400).json({ error: 'Please use a valid email from a recognized provider (e.g., Gmail, Yahoo, Outlook)' });
+    }
+
     // Always user by default
     const role = 'user';
 
