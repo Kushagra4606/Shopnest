@@ -37,7 +37,7 @@ const Shop = () => {
                             </div>
                         </div>
                         <div className="hidden md:block">
-                            <img alt="Luxury minimalist product staging" className="w-full h-[500px] object-cover rounded-2xl shadow-2xl shadow-primary/10 -rotate-3 hover:rotate-0 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVMwVi_DFs5Vwg-JgW_vA24VCc5PBD9VNE9iHeFIuHVUqCzYblE1ZQMBwfVCuLWQr1SZFtwk3YPN5Kf7hWYutO1wW3Yi2I4Z5EfdqS2XU13Jzj_ML3IXxFD1IO96VmK8c5SRl61Wy_vjR2AgOjuC7ReP3aC7mTUGDhBjjCVH_Pc5g_GuT1yyLTsIe57JxtVFRvEFWV2zwDZcV6cjAfKpmXPGp_8QJn6BDnmF5h4GfSs0EGG3B120wUnjkPQ9txpJARJbW7tDj6yzw" />
+                            <img alt="Luxury minimalist product staging" className="w-full h-[500px] object-cover rounded-2xl shadow-2xl shadow-primary/10 -rotate-3 hover:rotate-0 transition-transform duration-700" src="./assets/group.png"/>
                         </div>
                     </div>
                 </div>
