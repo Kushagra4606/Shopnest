@@ -37,8 +37,8 @@ const Shop = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="hidden md:block">
-                            <img alt="Luxury minimalist product staging" className="w-full h-[500px] object-cover rounded-2xl shadow-2xl shadow-primary/10 -rotate-3 hover:rotate-0 transition-transform duration-700" src={groupImage}/>
+                        <div className="block w-full">
+                            <img alt="Luxury minimalist product staging" className="w-full h-[280px] md:h-[500px] object-cover rounded-2xl shadow-2xl shadow-primary/10 -rotate-3 hover:rotate-0 transition-transform duration-700" src={groupImage}/>
                         </div>
                     </div>
                 </div>
