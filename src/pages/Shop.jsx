@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import groupImage from '../assets/group.png';
 
 const Shop = () => {
     const [products, setProducts] = useState([]);
@@ -37,7 +38,7 @@ const Shop = () => {
                             </div>
                         </div>
                         <div className="hidden md:block">
-                            <img alt="Luxury minimalist product staging" className="w-full h-[500px] object-cover rounded-2xl shadow-2xl shadow-primary/10 -rotate-3 hover:rotate-0 transition-transform duration-700" src="./assets/group.png"/>
+                            <img alt="Luxury minimalist product staging" className="w-full h-[500px] object-cover rounded-2xl shadow-2xl shadow-primary/10 -rotate-3 hover:rotate-0 transition-transform duration-700" src={groupImage}/>
                         </div>
                     </div>
                 </div>
