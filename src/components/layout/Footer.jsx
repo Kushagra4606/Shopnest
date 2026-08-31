@@ -53,7 +53,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
-                    <p>&copy; 2024 ShopNest. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} ShopNest. All rights reserved.</p>
                     <div className="flex gap-6 mt-4 md:mt-0">
                         <Link to="#" className="hover:text-white transition-colors">Privacy Policy</Link>
                         <Link to="#" className="hover:text-white transition-colors">Cookie Policy</Link>

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/set-state-in-effect -- fetch-on-mount/reset-on-logout pattern is intentional */
+/* eslint-disable react-refresh/only-export-components -- context providers intentionally export their hook */
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 

@@ -26,4 +26,9 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  {
+    // Dev helper scripts run under Node, not in the browser
+    files: ['verify-*.js'],
+    languageOptions: { globals: globals.node },
+  },
 ])

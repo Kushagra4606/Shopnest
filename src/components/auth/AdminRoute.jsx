@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const AdminRoute = ({ children }) => {
-    const { currentUser, isAdmin, loading } = useAuth();
+    const { currentUser, isAdmin } = useAuth();
 
     // If context is still loading (if you had a loading state exposed), handle it.
     // Assuming AuthProvider renders children only after loading is false (based on viewing AuthContext.jsx)

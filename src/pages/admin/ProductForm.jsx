@@ -29,7 +29,7 @@ const ProductForm = () => {
                         let parsedImages = [];
                         try {
                             parsedImages = product.images ? JSON.parse(product.images) : [];
-                        } catch (e) {
+                        } catch {
                             parsedImages = [];
                         }
                         if (!Array.isArray(parsedImages) || parsedImages.length === 0) {
@@ -194,9 +194,18 @@ const ProductForm = () => {
     );
 
     return (
-        <div className="bg-[#f9f9f9] text-[#1a1c1c] font-body min-h-screen flex w-full absolute inset-0 z-50">
+        <div className="bg-[#f9f9f9] text-[#1a1c1c] font-body min-h-screen flex w-full relative z-50">
+            {/* Mobile top bar */}
+            <div className="lg:hidden fixed top-0 left-0 right-0 bg-zinc-900 text-white flex items-center justify-between px-4 py-3 z-50">
+                <span className="text-lg font-bold tracking-tighter">ShopNest</span>
+                <div className="flex items-center gap-3 text-sm font-medium">
+                    <Link to="/admin" className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700">Inventory</Link>
+                    <Link to="/" className="px-3 py-1.5 rounded-lg hover:bg-zinc-800">Store</Link>
+                </div>
+            </div>
+
             {/* SideNavBar */}
-            <aside className="h-full w-64 fixed left-0 top-0 bg-zinc-900 flex flex-col py-6 z-50 shadow-2xl shadow-violet-900/20">
+            <aside className="hidden lg:flex h-full w-64 fixed left-0 top-0 bg-zinc-900 flex-col py-6 z-50 shadow-2xl shadow-violet-900/20">
                 <div className="text-xl font-bold text-white mb-8 px-6 tracking-tighter">ShopNest</div>
                 <div className="px-4 mb-4">
                     <p className="text-[10px] uppercase tracking-[0.1em] text-zinc-500 font-bold px-2 mb-4">Main Menu</p>
@@ -236,8 +245,8 @@ const ProductForm = () => {
             </aside>
 
             {/* Main Content Area */}
-            <main className="flex-grow ml-64 min-h-screen bg-[#f9f9f9] transition-all w-full p-0 m-0">
-                <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl px-10 py-8 flex items-center gap-4 border-b border-gray-100">
+            <main className="flex-grow min-h-screen bg-[#f9f9f9] transition-all w-full p-0 m-0 lg:ml-64 pt-16 lg:pt-0">
+                <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl px-4 md:px-10 py-8 flex items-center gap-4 border-b border-gray-100">
                     <button onClick={() => navigate('/admin')} className="p-2 rounded-full hover:bg-gray-100 transition-colors">
                         <span className="material-symbols-outlined text-gray-500">arrow_back</span>
                     </button>
@@ -249,7 +258,7 @@ const ProductForm = () => {
                     </div>
                 </header>
 
-                <div className="p-10 max-w-4xl">
+                <div className="p-4 md:p-10 max-w-4xl">
                     <div className="bg-white rounded-xl shadow-sm overflow-hidden p-8 border border-gray-100">
                         <form onSubmit={handleSubmit}>
                             <div className="space-y-6">
@@ -280,9 +289,9 @@ const ProductForm = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-[10px] font-bold tracking-widest text-gray-500 uppercase mb-2">Price ($)</label>
+                                    <label className="block text-[10px] font-bold tracking-widest text-gray-500 uppercase mb-2">Price (₹)</label>
                                     <div className="relative">
-                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
+                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">₹</span>
                                         <input
                                             type="number"
                                             name="price"

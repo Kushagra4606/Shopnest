@@ -2,27 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import { formatINR } from '../utils/format';
+import { handleImgError } from '../utils/placeholder';
 
 const Home = () => {
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const { addToCart } = useCart();
     const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
     useEffect(() => {
         fetch('/api/products')
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Failed to load products');
+                return res.json();
+            })
             .then(data => setProducts(data.slice(0, 3))) // Only show top 3 trending
-            .catch(err => console.error("Error fetching products:", err));
+            .catch(err => setError(err.message))
+            .finally(() => setLoading(false));
     }, []);
     return (
         <div className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 font-display">
             {/* Hero Section */}
             <section className="mt-8 mb-16 md:mt-12 md:mb-24">
-                <div className="relative w-full h-[560px] rounded-2xl overflow-hidden shadow-soft group">
+                <div className="relative w-full h-[440px] md:h-[560px] rounded-2xl overflow-hidden shadow-soft group">
                     <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBFhpBobjv7VTWk3U6Ch2t78YswgS9Qz9Qx_tC3yUBM9hqxBQIRoEMdjTdLW9HDxNAOLaWUL4RU7hpfMhmZEuSiWWQmdETBZECtQRl3GTdAkGtXqWQ-AegZPzNTjB6FhNl57Yj0z2JaRIeQEJC-uQ_F-VYTBu9_pRCQHt0vLtMyMyeVg1oJgPz73RlPshVkIEFqL6dADqBga9i24YcdK0yKH3d5JmMuVJCDojbxL38XL66NnsaVYTpJ5AhXFlYdjCkp7ULLrCoW18w")'}}></div>
                     <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/40 to-transparent"></div>
                     <div className="relative z-10 h-full flex flex-col justify-center px-8 md:px-16 max-w-3xl text-white">
-                        <span className="inline-block py-1 px-3 mb-4 text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md rounded-full w-fit border border-white/30">New Collection 2024</span>
+                        <span className="inline-block py-1 px-3 mb-4 text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md rounded-full w-fit border border-white/30">New Collection 2026</span>
                         <h1 className="text-4xl md:text-6xl font-black leading-tight tracking-tight mb-6">
                             Smart Shopping<br/>Starts Here
                         </h1>
@@ -87,14 +95,30 @@ const Home = () => {
                 </Link>
             </div>
 
-            {/* Product Grid (Static Demo Data) */}
+            {/* Product Grid */}
+            {error ? (
+                <div className="py-16 text-center">
+                    <p className="text-lg text-gray-500 mb-4">Sorry, we couldn't load the products.</p>
+                    <Link to="/shop" className="text-warm-coral font-bold hover:underline">Browse the shop instead</Link>
+                </div>
+            ) : loading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {[0, 1, 2].map(i => (
+                        <div key={i} className="animate-pulse rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-800 aspect-[4/5]"></div>
+                    ))}
+                </div>
+            ) : products.length === 0 ? (
+                <div className="py-16 text-center">
+                    <p className="text-lg text-gray-500">No products yet — check back soon.</p>
+                </div>
+            ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {products.map((item, idx) => {
                     const isWishlisted = isInWishlist(item.id);
                     return (
                     <div key={idx} className="group relative flex flex-col bg-white dark:bg-[#25252e] rounded-2xl shadow-sm hover:shadow-float transition-all duration-300 border border-gray-100 dark:border-gray-800 overflow-hidden">
-                        <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-800">
-                            <div className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{backgroundImage: `url(${item.image})`}}></div>
+                        <div className="relative aspect-[4/3] overflow-hidden bg-white dark:bg-gray-800">
+                            <img src={item.image} alt={item.name} onError={handleImgError} className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" />
                             <div className="absolute top-3 right-3">
                                 <button 
                                     onClick={() => isWishlisted ? removeFromWishlist(item.id) : addToWishlist(item)}
@@ -115,7 +139,7 @@ const Home = () => {
                             <Link to={`/product/${item.id}`} className="text-lg font-bold text-primary dark:text-white mb-1 group-hover:text-warm-coral transition-colors line-clamp-1">{item.name}</Link>
                             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">{item.description}</p>
                             <div className="mt-auto flex items-center justify-between">
-                                <span className="text-xl font-bold text-primary dark:text-white">${item.price}</span>
+                                <span className="text-xl font-bold text-primary dark:text-white">{formatINR(item.price)}</span>
                                 <button 
                                     onClick={(e) => { e.preventDefault(); addToCart(item); }}
                                     className="opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-2 bg-primary dark:bg-white text-white dark:text-primary px-4 py-2 rounded-lg text-sm font-bold shadow-lg hover:bg-warm-coral dark:hover:bg-warm-coral dark:hover:text-white">
@@ -126,7 +150,8 @@ const Home = () => {
                     </div>
                 )})}
             </div>
-            
+            )}
+
             <div className="mt-12 text-center md:hidden">
                 <Link to="/shop" className="inline-flex items-center justify-center gap-2 w-full bg-white dark:bg-[#25252e] border border-gray-200 dark:border-gray-700 text-primary dark:text-white font-bold py-3 rounded-lg">
                     <span>View All Products</span>

@@ -2,6 +2,8 @@ import React from 'react';
 import { X, ShoppingBag, Trash2 } from 'lucide-react';
 import { useWishlist } from '../../context/WishlistContext';
 import { useCart } from '../../context/CartContext';
+import { formatINR } from '../../utils/format';
+import { handleImgError } from '../../utils/placeholder';
 import './WishlistSidebar.css';
 
 const WishlistSidebar = () => {
@@ -32,10 +34,10 @@ const WishlistSidebar = () => {
                     ) : (
                         wishlistItems.map(item => (
                             <div key={item.id} className="wishlist-item">
-                                <img src={item.image} alt={item.name} className="wishlist-item-image" />
+                                <img src={item.image} alt={item.name} onError={handleImgError} className="wishlist-item-image" />
                                 <div className="wishlist-item-details">
                                     <h4>{item.name}</h4>
-                                    <p>${item.price}</p>
+                                    <p>{formatINR(item.price)}</p>
                                     <div className="wishlist-actions">
                                         <button
                                             className="move-to-cart-btn"

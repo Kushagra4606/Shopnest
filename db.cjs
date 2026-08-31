@@ -81,6 +81,44 @@ const dbAdapter = {
                 quantity INTEGER,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 UNIQUE(user_id, product_id)
+            )`,
+            `CREATE TABLE IF NOT EXISTS orders (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER,
+                total INTEGER,
+                status TEXT DEFAULT 'placed',
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )`,
+            `CREATE TABLE IF NOT EXISTS order_items (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                order_id INTEGER,
+                product_id INTEGER,
+                quantity INTEGER,
+                unit_price INTEGER
+            )`,
+            `CREATE TABLE IF NOT EXISTS group_orders (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                code TEXT UNIQUE NOT NULL,
+                product_id INTEGER NOT NULL,
+                size INTEGER NOT NULL,
+                status TEXT DEFAULT 'open',
+                created_by INTEGER NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )`,
+            `CREATE TABLE IF NOT EXISTS group_members (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                group_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
+                joined_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(group_id, user_id)
+            )`,
+            `CREATE TABLE IF NOT EXISTS group_order_usage (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                group_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
+                order_id INTEGER NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(group_id, user_id)
             )`
         ];
 

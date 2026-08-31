@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { formatINR } from '../../utils/format';
+import { handleImgError } from '../../utils/placeholder';
 
 const AdminDashboard = () => {
     const [products, setProducts] = useState([]);
@@ -52,9 +54,21 @@ const AdminDashboard = () => {
     );
 
     return (
-        <div className="bg-[#f9f9f9] text-[#1a1c1c] font-body min-h-screen flex w-full absolute inset-0 z-50">
+        <div className="bg-[#f9f9f9] text-[#1a1c1c] font-body min-h-screen flex w-full relative z-50">
+            {/* Mobile top bar */}
+            <div className="lg:hidden fixed top-0 left-0 right-0 bg-zinc-900 text-white flex items-center justify-between px-4 py-3 z-50">
+                <div className="flex items-center gap-3">
+                    <span className="text-lg font-bold tracking-tighter">ShopNest</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm font-medium">
+                    <Link to="/admin" className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700">Inventory</Link>
+                    <Link to="/admin/add" className="px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500">Add</Link>
+                    <Link to="/" className="px-3 py-1.5 rounded-lg hover:bg-zinc-800">Store</Link>
+                </div>
+            </div>
+
             {/* SideNavBar */}
-            <aside className="h-full w-64 fixed left-0 top-0 bg-zinc-900 flex flex-col py-6 z-50 shadow-2xl shadow-violet-900/20">
+            <aside className="hidden lg:flex h-full w-64 fixed left-0 top-0 bg-zinc-900 flex-col py-6 z-50 shadow-2xl shadow-violet-900/20">
                 <div className="text-xl font-bold text-white mb-8 px-6 tracking-tighter">ShopNest</div>
                 <div className="px-4 mb-4">
                     <p className="text-[10px] uppercase tracking-[0.1em] text-zinc-500 font-bold px-2 mb-4">Main Menu</p>
@@ -90,8 +104,8 @@ const AdminDashboard = () => {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-grow ml-64 min-h-screen bg-[#f9f9f9] transition-all w-full p-0 m-0">
-                <header className="flex justify-between items-center px-10 py-8">
+            <main className="flex-grow min-h-screen bg-[#f9f9f9] transition-all w-full p-0 m-0 lg:ml-64 pt-16 lg:pt-0">
+                <header className="flex justify-between items-center px-4 md:px-10 py-8">
                     <div>
                         <h1 className="text-4xl font-extrabold tracking-tight text-[#1a1c1c] font-headline">Inventory Management</h1>
                         <p className="text-gray-500 font-medium mt-1">Manage your boutique's curated selection and stock levels.</p>
@@ -102,7 +116,7 @@ const AdminDashboard = () => {
                     </Link>
                 </header>
 
-                <section className="px-10 mb-8">
+                <section className="px-4 md:px-10 mb-8">
                     <div className="bg-[#f3f3f4] rounded-2xl p-4 flex gap-4">
                         <div className="flex-1 relative">
                             <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
@@ -111,7 +125,7 @@ const AdminDashboard = () => {
                     </div>
                 </section>
 
-                <section className="px-10 pb-12">
+                <section className="px-4 md:px-10 pb-12">
                     <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
                         {products.length === 0 ? (
                             <div className="p-10 text-center flex flex-col items-center">
@@ -121,7 +135,8 @@ const AdminDashboard = () => {
                                 <Link to="/admin/add" className="text-[#4800b2] font-bold hover:underline">Add your first product &rarr;</Link>
                             </div>
                         ) : (
-                            <table className="w-full border-collapse text-left">
+                            <div className="overflow-x-auto">
+                                <table className="w-full border-collapse text-left min-w-[640px]">
                                 <thead>
                                     <tr className="bg-[#f3f3f4]">
                                         <th className="px-6 py-5 text-[11px] font-extrabold uppercase tracking-widest text-gray-500">Product Name</th>
@@ -135,7 +150,7 @@ const AdminDashboard = () => {
                                             <td className="px-6 py-6">
                                                 <div className="flex items-center gap-4">
                                                     <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
-                                                        <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                                                        <img src={product.image} alt={product.name} onError={handleImgError} className="w-full h-full object-cover" />
                                                     </div>
                                                     <div>
                                                         <div className="font-bold text-[#1a1c1c] font-headline">{product.name}</div>
@@ -143,7 +158,7 @@ const AdminDashboard = () => {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-6 font-bold text-[#1a1c1c]">${product.price}</td>
+                                            <td className="px-6 py-6 font-bold text-[#1a1c1c]">{formatINR(product.price)}</td>
                                             <td className="px-6 py-6 text-right">
                                                 <div className="flex justify-end gap-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
                                                     <Link to={`/admin/edit/${product.id}`} className="hover:text-[#4800b2] transition-colors"><span className="material-symbols-outlined">edit</span></Link>
@@ -154,6 +169,7 @@ const AdminDashboard = () => {
                                     ))}
                                 </tbody>
                             </table>
+                            </div>
                         )}
                     </div>
                 </section>

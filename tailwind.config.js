@@ -11,9 +11,13 @@ export default {
         "warm-coral": "#F48B77",
         "background-light": "#f7f7f7",
         "background-dark": "#19191f",
+        "surface-container-low": "#f4f1f7",
       },
       fontFamily: {
-        "display": ["Manrope", "sans-serif"]
+        "display": ["Manrope", "sans-serif"],
+        "headline": ["Plus Jakarta Sans", "sans-serif"],
+        "body": ["Inter", "sans-serif"],
+        "label": ["Manrope", "sans-serif"],
       },
       boxShadow: {
         "soft": "0 10px 30px -10px rgba(25, 44, 77, 0.1)",
